@@ -1,0 +1,21 @@
+.userpic {
+    vertical-align: middle;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+
+.username {
+    color: aliceblue;
+    font-size: 13;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+li:not(:last-child){
+    margin-right: 10px;
+}
+
+li {
+    font-size: large;
+}
