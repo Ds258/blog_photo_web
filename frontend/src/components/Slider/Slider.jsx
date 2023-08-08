@@ -13,21 +13,21 @@ export default function Slider() {
           {/* The slideshow/carousel */}
           <div class="carousel-inner">
             <div class="carousel-item active">
-              <img src="https://www.kindpng.com/picc/m/563-5634840_cheems-doge-transparent-hd-png-download.png" alt="Slide 1" class="d-block w-100"/>
+              <img src="https://www.kindpng.com/picc/m/563-5634840_cheems-doge-transparent-hd-png-download.png" alt="Slide 1" class="d-block w-100 imgSlider"/>
               <div class="carousel-caption">
                 <h3>Cheems</h3>
                 <p>What do you expect</p>
               </div>
             </div>
             <div class="carousel-item">
-              <img src="https://wiki.warthunder.com/images/thumb/b/bc/ArtImage_M60A3_TTS.png/800px-ArtImage_M60A3_TTS.png" alt="Slide 2" class="d-block w-100"/>
+              <img src="https://wiki.warthunder.com/images/thumb/b/bc/ArtImage_M60A3_TTS.png/800px-ArtImage_M60A3_TTS.png" alt="Slide 2" class="d-block w-100 imgSlider"/>
               <div class="carousel-caption">
                 <h3>M60 Patton</h3>
                 <p>What do you expect</p>
               </div>
             </div>
             <div class="carousel-item">
-              <img src="https://wiki.warthunder.com/images/thumb/8/8c/GarageImage_T-55AMD-1.jpg/800px-GarageImage_T-55AMD-1.jpg" alt="Slide 2" class="d-block w-100"/>
+              <img src="https://wiki.warthunder.com/images/thumb/8/8c/GarageImage_T-55AMD-1.jpg/800px-GarageImage_T-55AMD-1.jpg" alt="Slide 2" class="d-block w-100 imgSlider"/>
               <div class="carousel-caption">
                 <h3>T55 AMD</h3>
                 <p>What do you expect</p>
