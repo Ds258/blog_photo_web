@@ -3,17 +3,17 @@ import "./Discovery.css";
 
 export default function Discovery() {
     return (
-        <div class="d-flex">
-            <div class="learn">
-                <div>
+        <div class="d-flex discovery">
+            <div class="d-flex flex-column justify-content-center learn">
+                <div class="">
                     <h1>DISCOVERY THE LATEST PHOTO</h1>
                 </div>
-                <div>
+                <div class="button">
                     <button>Learn more</button>
                 </div>
             </div>
             <div class="picture">
-                <img src="https://www.kindpng.com/picc/m/563-5634840_cheems-doge-transparent-hd-png-download.png" alt="Thumbnail"/>
+                <img src="https://www.kindpng.com/picc/m/563-5634840_cheems-doge-transparent-hd-png-download.png" class="DisImg" alt="Thumbnail"/>
             </div>
         </div>
     )
