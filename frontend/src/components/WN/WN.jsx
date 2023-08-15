@@ -1,6 +1,6 @@
 import React from "react";
 import './WN.css';
-import Card from 'D:/Web Django/blog_photo_web/frontend/src/components/Card/Card'
+import Card from '../Card/Card';
 
 export default function WN() {
     return (
