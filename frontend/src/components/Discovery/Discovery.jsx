@@ -4,8 +4,8 @@ import "./Discovery.css";
 export default function Discovery() {
     return (
         <div class="d-flex discovery">
-            <div class="d-flex flex-column justify-content-center learn">
-                <div class="">
+            <div class="d-flex flex-column justify-content-center learn bg-dark">
+                <div class="DisHead">
                     <h1>DISCOVERY THE LATEST PHOTO</h1>
                 </div>
                 <div class="button">
