@@ -8,7 +8,9 @@ export default function WN() {
             <div class="heading">
                 <h1>WHAT'S NEWS</h1>
             </div>
-            <div class="card-container">
+            <div class="d-flex card-container justify-content-center">
+                <Card/>
+                <Card/>
                 <Card/>
             </div>            
         </div>
