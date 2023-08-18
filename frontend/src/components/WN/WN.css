@@ -1,12 +1,11 @@
 .heading {
     margin-top: 15px;
+    margin-bottom: 15px;
     position: relative;
     text-align: center;
 }
 
-.card-container {
-    position: relative;
-    margin-top: 0;
+.WN {
+    margin: 20px;
 }
-
 
