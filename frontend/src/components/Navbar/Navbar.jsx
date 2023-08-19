@@ -5,7 +5,7 @@ export default function Navbar() {
     return (
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <div style={{ width: "10%" }}>
+                <div style={{ width: "20%" }}>
                     <a class="navbar-brand" href="#">Live Blog</a>
                 </div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,7 +30,7 @@ export default function Navbar() {
                         </li>
                     </ul>
                 </div>
-                <div style={{ maxWidth: "10%" }} class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                <div class="collapse navbar-collapse justify-content-end user" id="navbarSupportedContent">
                     <img class="userpic" src="https://www.kindpng.com/picc/m/563-5634840_cheems-doge-transparent-hd-png-download.png" alt="Cheems Doge Transparent, HD Png Download@kindpng.com" />
                     <span class="username">Bim Cà chua</span>
                 </div>

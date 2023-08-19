@@ -10,7 +10,7 @@ export default function Discovery() {
                         <h1>DISCOVERY THE LATEST PHOTO</h1>
                     </div>
                     <div class="button">
-                        <button>Learn more</button>
+                        <button class="click">Learn more</button>
                     </div>
                 </div>
                 <div class="col-8 DisImg nopadding">
