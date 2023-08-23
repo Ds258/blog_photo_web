@@ -1,6 +1,6 @@
 import React from "react";
 import './WN.css';
-import Card from '../Card/Card';
+import Card from '../../common/Card/Card';
 
 export default function WN() {
     return (
@@ -8,7 +8,7 @@ export default function WN() {
             <div class="heading">
                 <h1>WHAT'S NEWS</h1>
             </div>
-            <div class="d-flex container justify-content-center">
+            <div class="container">
                 <div class="row">
                     <div class="col-6 col-md-4">
                         <Card/>

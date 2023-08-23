@@ -1,20 +1,18 @@
-import AboutUs from './components/AboutUs/AboutUs';
-import Discovery from './components/Discovery/Discovery';
-import Footer from './components/Footer/Footer';
-import Navbar from './components/Navbar/Navbar';
-import Slider from './components/Slider/Slider';
-import WN from './components/WN/WN';
+import AboutUs from './components/homepage/AboutUs/AboutUs';
+import Discovery from './components/homepage/Discovery/Discovery';
+import Footer from './components/common/Footer/Footer';
+import Navbar from './components/common/Navbar/Navbar';
+import Slider from './components/homepage/Slider/Slider';
+import WN from './components/homepage/WN/WN';
+import Login from './pages/Login/Login';
 
 function App() {
   return (
     <div>
-      <Navbar/>
-      <Slider/>
-      <WN/>
-      <Discovery/>
-      <AboutUs/>
-      <Footer/>
+      <Login/>
     </div>
+      
+    
   );
 }
 
