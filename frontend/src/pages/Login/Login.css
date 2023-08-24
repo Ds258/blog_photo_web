@@ -3,6 +3,8 @@
     max-width: 330px;
     padding: 15px;
     margin: auto;
+    background-color: rgb(255, 255, 255, 0.5);
+    border-radius: 15px;
 }
 
 .login{
@@ -18,5 +20,9 @@
 
 .password {
     margin-bottom: 15px;
+}
+
+.copyright {
+    color: black;
 }
 

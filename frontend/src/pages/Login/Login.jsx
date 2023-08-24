@@ -22,7 +22,9 @@ export default function Login() {
                     </div>
                 </form>
                 <button className="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-                <p className="mt-5 mb-3 text-muted">© 2023</p>
+                <h3 className="h6 mt-3 mb-2 fw-normal">Not a member yet? Sign up now</h3>
+                <button className="w-100 btn btn-lg btn-danger" type="submit">Sign up</button>
+                <p className="mt-5 mb-3 copyright">© 2023</p>
             </main>
         </div>
     )
