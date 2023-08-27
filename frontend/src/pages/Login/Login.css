@@ -12,6 +12,7 @@
     display: flex;
     background-image: url(000092660031.jpg);
     background-size: cover;
+    background-position: 50% 50%;
 }
 
 .email {

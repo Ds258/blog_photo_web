@@ -5,6 +5,7 @@ import Navbar from './components/common/Navbar/Navbar';
 import Slider from './components/homepage/Slider/Slider';
 import WN from './components/homepage/WN/WN';
 import Login from './pages/Login/Login';
+import {BrowserRouter, Route} from 'react-router-dom';
 
 function App() {
   return (
