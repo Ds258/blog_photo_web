@@ -1,5 +1,6 @@
 import React from "react";
 import './Navbar.css'
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
     return (
@@ -32,7 +33,7 @@ export default function Navbar() {
                 </div>
                 <div class="collapse navbar-collapse justify-content-end user" id="navbarSupportedContent">
                     <img class="userpic" src="https://www.kindpng.com/picc/m/563-5634840_cheems-doge-transparent-hd-png-download.png" alt="Cheems Doge Transparent, HD Png Download@kindpng.com" />
-                    <span class="username">Bim Cà chua</span>
+                    <Link to="/login"><span class="username">Bim Cà chua</span></Link>
                 </div>
             </div>
         </nav>

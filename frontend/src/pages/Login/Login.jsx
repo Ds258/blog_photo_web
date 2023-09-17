@@ -2,9 +2,9 @@ import React from "react";
 import "./Login.css"
 
 export default function Login() {
-    axios.post('/login', {
+    // axios.post('/login', {
         
-    });
+    // });
 
     return (
         <div className="text-center align-items-center login">
