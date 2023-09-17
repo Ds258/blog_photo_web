@@ -1,0 +1,45 @@
+.form-signup {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+    background-color: rgb(255, 255, 255, 0.5);
+    border-radius: 15px;
+}
+
+.signup{
+    height: calc(100vh);
+    display: flex;
+    background-image: url(000092660031.jpg);
+    background-size: cover;
+    background-position: 50% 50%;
+}
+
+.username {
+    margin-bottom: 15px;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.username label {
+    color: black;
+}
+
+.DOB {
+    margin-bottom: 15px;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.email {
+    margin-bottom: 15px;
+}
+
+.password {
+    margin-bottom: 15px;
+}
+
+.copyright {
+    color: black;
+}
+
