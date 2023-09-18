@@ -1,5 +1,6 @@
 import React from "react";
 import "./Login.css"
+import { Link } from "react-router-dom";
 
 export default function Login() {
     // axios.post('/login', {
@@ -25,9 +26,9 @@ export default function Login() {
                         </label>
                     </div>
                 </form>
-                <button className="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+                <Link to="/"><button className="w-100 btn btn-lg btn-primary" type="submit">Sign in</button></Link>
                 <h3 className="h6 mt-3 mb-2 fw-bold">Not a member yet? Sign up now</h3>
-                <button className="w-100 btn btn-lg btn-danger" type="submit">Sign up</button>
+                <Link to="/signup"><button className="w-100 btn btn-lg btn-danger" type="submit">Sign up</button></Link>
                 <p className="mt-5 mb-3 copyright">© 2023</p>
             </main>
         </div>
