@@ -4,10 +4,10 @@ import "./AboutUs.css";
 export default function AboutUs(){
     return (
         <div style={{paddingTop: "10px"}}>
-            <div class="heading">
+            <div className="heading">
                 <h1>ABOUT US</h1>
             </div>
-            <div class="about">
+            <div className="about">
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
                     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
                     Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 

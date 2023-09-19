@@ -3,18 +3,18 @@ import "./Discovery.css";
 
 export default function Discovery() {
     return (
-        <div class="container-fluid DisHeight">
-            <div class="row bg-dark align-items-center">
-                <div class="col-4">
-                    <div class="DisHead">
+        <div className="container-fluid DisHeight">
+            <div className="row bg-dark align-items-center">
+                <div className="col-4">
+                    <div className="DisHead">
                         <h1>DISCOVERY THE LATEST PHOTO</h1>
                     </div>
-                    <div class="button">
-                        <button class="click">Learn more</button>
+                    <div className="button">
+                        <button className="click">Learn more</button>
                     </div>
                 </div>
-                <div class="col-8 DisImg nopadding">
-                    <img src="https://www.kindpng.com/picc/m/563-5634840_cheems-doge-transparent-hd-png-download.png" class="DisImg" alt="Thumbnail" />
+                <div className="col-8 DisImg nopadding">
+                    <img src="https://www.kindpng.com/picc/m/563-5634840_cheems-doge-transparent-hd-png-download.png" className="DisImg" alt="Thumbnail" />
                 </div>
             </div>
         </div>
