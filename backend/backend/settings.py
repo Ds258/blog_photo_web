@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -48,6 +49,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'rest_api.urls'
@@ -86,6 +89,28 @@ DATABASES = {
 }
 
 
+CORS_ALLOWED_ORIGINS = [
+  'http://127.0.0.1:8000',
+]
+
+CSRF_HEADER_NAME = 'HTTP_X_CSRFTOKEN'
+CSRF_COOKIE_NAME = 'X-CSRFTOKEN'
+CORS_ALLOW_HEADERS = [
+  'X-CSRFTOKEN',
+  'csrftoken',
+  'X-XSRF-TOKEN',
+  'content-type',
+  'x-requested-with',
+  'Authorization',
+  'Set-Cookie'
+]
+CORS_ALLOW_CREDENTIALS = True
+CSRF_TRUSTED_ORIGINS = ['http://localhost:3000', 'http://127.0.0.1:8000']
+CSRF_COOKIE_DOMAIN = 'http://192.168.56.1:3000'
+CSRF_COOKIE_PATH = 'http://localhost:3000'
+SESSION_COOKIE_DOMAIN = 'http://localhost:3000'
+CSRF_COOKIE_SECURE = False
+
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -104,6 +129,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = (
+  'django.contrib.auth.backends.ModelBackend',
+)
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/

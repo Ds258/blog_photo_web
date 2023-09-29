@@ -33,7 +33,7 @@ export default function Navbar() {
                 </div>
                 <div className="collapse navbar-collapse justify-content-end user" id="navbarSupportedContent">
                     <img className="userpic" src="https://www.kindpng.com/picc/m/563-5634840_cheems-doge-transparent-hd-png-download.png" alt="Cheems Doge Transparent, HD Png Download@kindpng.com" />
-                    <Link to="/login"><span className="username">Bim Cà chua</span></Link>
+                    <Link to="/signin"><span className="username">Bim Cà chua</span></Link>
                 </div>
             </div>
         </nav>
