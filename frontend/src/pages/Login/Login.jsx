@@ -17,12 +17,12 @@ export default function Login() {
         };
         
         try {
-            const response = await axios.post('http://localhost:8000/api/signin/', data);
+            const response = await axios.post('http://localhost:8000/api/signin/', data); //send request to django
             console.log(response.data);
-            if (response.data.status === 'ok') {
-                navigate("/");
-            } else if (response.data.status === 'error') {
-                alert("Invaild username or password");
+            if (response.data.status === 'ok') { //if login is successfull
+                navigate("/"); //navigate back to home page
+            } else if (response.data.status === 'error') { // if login is failed
+                alert("Invaild username or password"); // Show alert to user
             }
         } catch (error) {
             console.error('An error occurred while logging in:', error);

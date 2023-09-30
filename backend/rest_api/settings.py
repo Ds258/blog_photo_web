@@ -4,6 +4,7 @@ from django.contrib.auth.hashers import check_password
 from .models import User
 
 class SettingsBackend(BaseBackend):
+    #authenticate user
     def authenticate(self, request=None, username=None, password=None):
         user = User.objects.get(username=username)
         if user is not None:
@@ -16,3 +17,9 @@ class SettingsBackend(BaseBackend):
             return User.objects.get(pk=user_id)
         except User.DoesNotExist:
             return None
+        
+    def check_exist(self, request=None, username=None):
+        user = User.objects.get(username=username)
+        if user is not None:
+            return True
+        return False

@@ -25,6 +25,8 @@ export default function Signup() {
             console.log(response.data);
             if(response.data.status === 'success') {
                 navigate("/signin");
+            } else if(response.data.status === 'exist') {
+                alert("Username is already exists")
             }
         } catch (error) {
             console.error('An error occurred while logging in:', error);
