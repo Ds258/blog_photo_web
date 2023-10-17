@@ -1,12 +1,14 @@
 import "./Login.css"
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { Context } from "../../context/Context";
 
 export default function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const { dispatch, isFetching } = useContext(Context);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -16,6 +18,8 @@ export default function Login() {
             password: password,
         };
         
+        dispatch({type: "LOGIN_START"});
+
         try {
             const response = await axios.post('http://localhost:8000/api/signin/', data); //send request to django
             console.log(response.data);
@@ -24,8 +28,10 @@ export default function Login() {
             } else if (response.data.status === 'error') { // if login is failed
                 alert("Invaild username or password"); // Show alert to user
             }
+            dispatch({type: "LOGIN_SUCCESS"});
         } catch (error) {
             console.error('An error occurred while logging in:', error);
+            dispatch({type: "LOGIN_FAILURE"});
         }
     };
     
@@ -48,7 +54,7 @@ export default function Login() {
                             <input type="checkbox" value="remember-me" /> Remember me
                         </label>
                     </div>
-                    <button className="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+                    <button className="w-100 btn btn-lg btn-primary" type="submit" disabled={isFetching}>Sign in</button>
                     <h3 className="h6 mt-3 mb-2 fw-bold">Not a member yet? Sign up now</h3>
                     <Link to="/signup"><button className="w-100 btn btn-lg btn-danger" type="submit">Sign up</button></Link>
                     <p className="mt-5 mb-3 copyright">© 2023</p>

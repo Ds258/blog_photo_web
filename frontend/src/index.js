@@ -7,6 +7,7 @@ import axios from 'axios';
 // import "bootstrap/dist/js/bootstrap.min.js";
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
+import { ContextProvider } from './context/Context';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'bootstrap/dist/js/bootstrap.js';
 
@@ -16,7 +17,9 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <ContextProvider>
+      <App />
+    </ContextProvider>
   </React.StrictMode>
 );
 

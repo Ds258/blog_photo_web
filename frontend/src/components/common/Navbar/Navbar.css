@@ -11,6 +11,19 @@
     font-size: 13;
     margin-right: 10px;
     margin-left: 10px;
+    text-decoration: none;
+}
+
+.linkPage {
+    margin-bottom: 0;
+    display: inline-block;
+}
+
+.link {
+    color: aliceblue;
+    font-size: 13;
+    margin-right: 10px;
+    text-decoration: none;
 }
 
 li:not(:last-child){
@@ -19,11 +32,20 @@ li:not(:last-child){
 
 li {
     font-size: large;
+    display: inline; 
 }
 
 @media screen and (max-width: 600px) {
     .user {
         max-width: 160px;
+    }
+
+    ul {
+        padding-left: 0;
+    }
+
+    .linkPage {
+        margin-top: 5px;
     }
 }
 

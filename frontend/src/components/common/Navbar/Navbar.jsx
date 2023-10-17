@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import './Navbar.css'
 import { Link } from "react-router-dom";
+import { Context } from "../../../context/Context";
 
 export default function Navbar() {
+    const {user, dispatch} = useContext(Context);
+
+    const handleLogout = () => {
+        dispatch({type: "LOGOUT"});
+    }
+
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
@@ -32,8 +39,25 @@ export default function Navbar() {
                     </ul>
                 </div>
                 <div className="collapse navbar-collapse justify-content-end user" id="navbarSupportedContent">
-                    <img className="userpic" src="https://www.kindpng.com/picc/m/563-5634840_cheems-doge-transparent-hd-png-download.png" alt="Cheems Doge Transparent, HD Png Download@kindpng.com" />
-                    <Link to="/signin"><span className="username">Bim Cà chua</span></Link>
+                    { user ? (
+                        <Link to="/signin">
+                            <img className="userpic" src="https://www.kindpng.com/picc/m/563-5634840_cheems-doge-transparent-hd-png-download.png" alt="Cheems Doge Transparent, HD Png Download@kindpng.com" />
+                            <span className="username">Bim Cà chua</span>
+                        </Link>
+                    ):(
+                        <ul className="linkPage">
+                            <li>
+                                <Link to="/signin" className="link"><span>Sign in</span></Link>
+                            </li>
+                            <li>
+                                <Link to="/signup" className="link"><span>Sign up</span></Link>
+                            </li>                          
+                        </ul>                      
+                    )}              
+                    {/* <Link to="/signin">
+                            <img className="userpic" src="https://www.kindpng.com/picc/m/563-5634840_cheems-doge-transparent-hd-png-download.png" alt="Cheems Doge Transparent, HD Png Download@kindpng.com" />
+                            <span className="username">Bim Cà chua</span>
+                        </Link> */}
                 </div>
             </div>
         </nav>
