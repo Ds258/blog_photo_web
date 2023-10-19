@@ -10,9 +10,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Homepage/>}/>
-        <Route path="/signin" render={() => (user ? <Homepage /> : <Login />)} />
-        <Route path="/signup" render={() => (user ? <Homepage /> : <Signup />)} />
+        <Route key="home" path="/" element={<Homepage />} />
+        <Route path="/signin" element={user ? <Homepage /> : <Login />} />
+        <Route path="/signup" element={user ? <Homepage /> : <Signup />} />
       </Routes>
     </Router>    
   );

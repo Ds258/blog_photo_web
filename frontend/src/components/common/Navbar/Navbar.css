@@ -35,6 +35,10 @@ li {
     display: inline; 
 }
 
+ul {
+    padding-left: 0!important;
+}
+
 @media screen and (max-width: 600px) {
     .user {
         max-width: 160px;
@@ -46,6 +50,11 @@ li {
 
     .linkPage {
         margin-top: 5px;
+    }
+
+    li {
+        font-size: large;
+        display: list-item; 
     }
 }
 

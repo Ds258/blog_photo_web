@@ -28,7 +28,7 @@ export default function Login() {
             } else if (response.data.status === 'error') { // if login is failed
                 alert("Invaild username or password"); // Show alert to user
             }
-            dispatch({type: "LOGIN_SUCCESS"});
+            dispatch({type: "LOGIN_SUCCESS", payload: response.data});
         } catch (error) {
             console.error('An error occurred while logging in:', error);
             dispatch({type: "LOGIN_FAILURE"});

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import './Navbar.css'
 import { Link } from "react-router-dom";
 import { Context } from "../../../context/Context";
@@ -9,6 +9,11 @@ export default function Navbar() {
     const handleLogout = () => {
         dispatch({type: "LOGOUT"});
     }
+
+    useEffect(() => {
+        console.log(user);
+      }, [user]);
+      
 
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -40,7 +45,7 @@ export default function Navbar() {
                 </div>
                 <div className="collapse navbar-collapse justify-content-end user" id="navbarSupportedContent">
                     { user ? (
-                        <Link to="/signin">
+                        <Link to="">
                             <img className="userpic" src="https://www.kindpng.com/picc/m/563-5634840_cheems-doge-transparent-hd-png-download.png" alt="Cheems Doge Transparent, HD Png Download@kindpng.com" />
                             <span className="username">Bim Cà chua</span>
                         </Link>
