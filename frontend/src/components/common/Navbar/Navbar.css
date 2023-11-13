@@ -33,10 +33,19 @@ li:not(:last-child){
 li {
     font-size: large;
     display: inline; 
+    text-decoration: none;
 }
 
 ul {
     padding-left: 0!important;
+}
+
+.buttonUser {
+    padding: 0!important;
+}
+
+.dropdown-menu {
+    min-width: 100% !important;
 }
 
 @media screen and (max-width: 600px) {
@@ -62,4 +71,9 @@ ul {
     .user {
         max-width: 20%;
     }
+
+    .dropdownUser {
+        margin-right: 10px;
+    }
+    
 }

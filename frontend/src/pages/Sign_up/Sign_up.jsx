@@ -59,7 +59,6 @@ export default function Signup() {
                     <Link to="/signin"><button className="w-100 btn btn-lg btn-danger" type="submit">Sign in</button></Link>
                     <p className="mt-4 copyright">© 2023</p>
                 </form>
-
             </main>
         </div>
     )

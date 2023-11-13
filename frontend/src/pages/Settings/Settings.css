@@ -1,0 +1,52 @@
+.form-settings {
+    width: 100%;
+    max-width: 750px;
+    padding: 30px;
+    margin: auto;
+    margin-bottom: 9%;
+    border-radius: 15px;
+    background-color: rgba(247, 255, 255, 0.5)
+}
+
+.settings{
+    height: calc(100vh);
+    display: flex;
+    background-size: cover;
+    background-image: url(../../images/000050380016.jpg);
+    background-position: 50% 50%;
+}
+
+.username-settings {
+    margin-bottom: 15px;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.username-settings label {
+    color: black;
+}
+
+.DOB-settings {
+    margin-bottom: 15px;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.email-settings {
+    margin-bottom: 15px;
+}
+
+.password-settings {
+    margin-bottom: 15px;
+}
+
+@media screen and (max-width: 600px) {
+    .form-settings {
+        width: 100%;
+        max-width: 350px;
+        padding: 30px;
+        margin: auto;
+        border-radius: 15px;
+        border: 3px solid rgb(94, 94, 94);
+    }
+}

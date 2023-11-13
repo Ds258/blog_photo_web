@@ -19,7 +19,8 @@ class SettingsBackend(BaseBackend):
             return None
         
     def check_exist(self, request=None, username=None):
-        user = User.objects.get(username=username)
-        if user is not None:
+        try:
+            user = User.objects.get(username=username)
             return True
-        return False
+        except User.DoesNotExist:
+            return False

@@ -23,7 +23,8 @@ def signin(request):
         #check = User.objects.filter(username='ds25082002@gmail.com').values()
         if user is not None:
             login(request, user)
-            return JsonResponse({'status': 'ok'})
+            return JsonResponse({'status': 'ok', 
+                                 'username': username})
         else:
             return JsonResponse({'status': 'error'})
     return JsonResponse({'status': 'error'})
@@ -43,7 +44,18 @@ def signup(request):
             user = User.objects.create(username=username , password=password , email=email, DOB=DOB, privilege=True)
             user.password = make_password(password)
             user.save()
-            print('user created')
             return JsonResponse({'status': 'success'})
     return JsonResponse({'status': 'error'})
-     
+
+@csrf_exempt
+def get_user_info(request):
+    if request.method == 'POST':
+        user = request.user
+        user_info = {
+            'username': user.username,
+            'email': user.email,
+            'dob': user.DOB
+        }
+        return JsonResponse({'status': 'ok', 'user_info': user_info})
+    return JsonResponse({'status': 'error'})
+

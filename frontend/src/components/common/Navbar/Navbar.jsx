@@ -4,16 +4,16 @@ import { Link } from "react-router-dom";
 import { Context } from "../../../context/Context";
 
 export default function Navbar() {
-    const {user, dispatch} = useContext(Context);
+    const { user, dispatch } = useContext(Context);
 
     const handleLogout = () => {
-        dispatch({type: "LOGOUT"});
+        dispatch({ type: "LOGOUT" });
     }
 
     useEffect(() => {
         console.log(user);
-      }, [user]);
-      
+    }, [user]);
+
 
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -27,7 +27,7 @@ export default function Navbar() {
                 <div className="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
                     <ul className="navbar-nav mr-auto">
                         <li className="nav-item active">
-                            <a className="nav-link" href="#">Home</a>
+                            <a className="nav-link" href="/">Home</a>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="#">Blog</a>
@@ -44,25 +44,30 @@ export default function Navbar() {
                     </ul>
                 </div>
                 <div className="collapse navbar-collapse justify-content-end user" id="navbarSupportedContent">
-                    { user ? (
-                        <Link to="">
-                            <img className="userpic" src="https://www.kindpng.com/picc/m/563-5634840_cheems-doge-transparent-hd-png-download.png" alt="Cheems Doge Transparent, HD Png Download@kindpng.com" />
-                            <span className="username">Bim Cà chua</span>
-                        </Link>
-                    ):(
+                    {user ? (
+                        <div class="dropdown dropdownUser">
+                            <button class="btn buttonUser" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img className="userpic" src="https://www.kindpng.com/picc/m/563-5634840_cheems-doge-transparent-hd-png-download.png" alt="Cheems Doge Transparent, HD Png Download@kindpng.com" />
+                                <span className="username">{user.username}</span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <Link to="/settings"><li><a class="dropdown-item" href="#">Settings</a></li></Link>
+                                <li><a class="dropdown-item" href="#" onClick={handleLogout}>{user && "Log out"}</a></li>
+                            </ul>
+                        </div>
+                    ) : (
                         <ul className="linkPage">
                             <li>
                                 <Link to="/signin" className="link"><span>Sign in</span></Link>
                             </li>
                             <li>
                                 <Link to="/signup" className="link"><span>Sign up</span></Link>
-                            </li>                          
-                        </ul>                      
-                    )}              
-                    {/* <Link to="/signin">
-                            <img className="userpic" src="https://www.kindpng.com/picc/m/563-5634840_cheems-doge-transparent-hd-png-download.png" alt="Cheems Doge Transparent, HD Png Download@kindpng.com" />
-                            <span className="username">Bim Cà chua</span>
-                        </Link> */}
+                            </li>
+                            {/* <li>
+                                <Link to="/settings" className="link"><span>Settings</span></Link>
+                            </li> */}
+                        </ul>
+                    )}
                 </div>
             </div>
         </nav>
