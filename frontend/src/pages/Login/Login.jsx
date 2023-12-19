@@ -25,10 +25,11 @@ export default function Login() {
             console.log(response.data);
             if (response.data.status === 'ok') { //if login is successfull
                 navigate("/"); //navigate back to home page
+                dispatch({type: "LOGIN_SUCCESS", payload: response.data});
             } else if (response.data.status === 'error') { // if login is failed
                 alert("Invaild username or password"); // Show alert to user
+                dispatch({type: "LOGIN_FAILURE"});
             }
-            dispatch({type: "LOGIN_SUCCESS", payload: response.data});
         } catch (error) {
             console.error('An error occurred while logging in:', error);
             dispatch({type: "LOGIN_FAILURE"});

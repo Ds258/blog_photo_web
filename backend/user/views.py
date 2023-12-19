@@ -24,7 +24,10 @@ def signin(request):
         if user is not None:
             login(request, user)
             return JsonResponse({'status': 'ok', 
-                                 'username': username})
+                                 'username': username,
+                                 'password': password,
+                                 'email': user.email,
+                                 'dob': user.DOB})
         else:
             return JsonResponse({'status': 'error'})
     return JsonResponse({'status': 'error'})

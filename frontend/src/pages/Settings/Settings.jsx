@@ -9,8 +9,22 @@ export default function Settings() {
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [DOB, setDOB] = useState('')
+    const [avatar, setAvatar] = useState('');
 
     const { user, dispatch } = useContext(Context);
+
+    const handleSubmit = async(event) => {
+        event.preventDefault();
+
+        const data = {
+            username: username,
+            old_password: password,
+            new_password: new_password,
+            email: email,
+            dob: DOB,
+            avatar: avatar,
+        }
+    } 
 
     return (
         <div>
@@ -28,7 +42,7 @@ export default function Settings() {
                             <label htmlFor="floatingUser">Username</label>
                         </div>
                         <div className="form-floating DOB-settings">
-                            <input type="date" className="form-control" id="floatingDOB" placeholder="Date of Birth" value={user.DOB} onChange={(e) => setDOB(e.target.value)} />
+                            <input type="date" className="form-control" id="floatingDOB" placeholder="Date of Birth" value={user.dob} onChange={(e) => setDOB(e.target.value)} />
                             <label htmlFor="floatingDOB">Date of Birth</label>
                         </div>
                         <div className="form-floating email-settings">

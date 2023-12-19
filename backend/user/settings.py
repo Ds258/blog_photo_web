@@ -6,10 +6,14 @@ from .models import User
 class SettingsBackend(BaseBackend):
     #authenticate user
     def authenticate(self, request=None, username=None, password=None):
-        user = User.objects.get(username=username)
-        if user is not None:
-            if check_password(password, user.password):
-                return user
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return None
+
+        if check_password(password, user.password):
+            return user
+
         return None
     
     def get_user(self, user_id):

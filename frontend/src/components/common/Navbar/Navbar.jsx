@@ -51,8 +51,8 @@ export default function Navbar() {
                                 <span className="username">{user.username}</span>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <Link to="/settings"><li><a class="dropdown-item" href="#">Settings</a></li></Link>
-                                <li><a class="dropdown-item" href="#" onClick={handleLogout}>{user && "Log out"}</a></li>
+                                <Link to="/settings" style={{"textDecoration": "none"}}><li><a class="dropdown-item" href="">Settings</a></li></Link>
+                                <li><a class="dropdown-item" href="" onClick={handleLogout}>{user && "Log out"}</a></li>
                             </ul>
                         </div>
                     ) : (
