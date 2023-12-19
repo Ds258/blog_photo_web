@@ -47,15 +47,4 @@ def signup(request):
             return JsonResponse({'status': 'success'})
     return JsonResponse({'status': 'error'})
 
-@csrf_exempt
-def get_user_info(request):
-    if request.method == 'POST':
-        user = request.user
-        user_info = {
-            'username': user.username,
-            'email': user.email,
-            'dob': user.DOB
-        }
-        return JsonResponse({'status': 'ok', 'user_info': user_info})
-    return JsonResponse({'status': 'error'})
 

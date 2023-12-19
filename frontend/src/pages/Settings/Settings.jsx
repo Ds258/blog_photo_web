@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import './Settings.css';
 import Navbar from "../../components/common/Navbar/Navbar";
 import { Context } from "../../context/Context";
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 
 export default function Settings() {
     const [username, setUsername] = useState('');
