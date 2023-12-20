@@ -10,7 +10,7 @@ export default function Settings() {
     const [email, setEmail] = useState('');
     const [DOB, setDOB] = useState('')
     const [avatar, setAvatar] = useState('');
-
+    const [new_password, setNewPassword] = useState('');
     const { user, dispatch } = useContext(Context);
 
     const handleSubmit = async(event) => {
