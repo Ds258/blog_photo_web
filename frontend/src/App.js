@@ -1,4 +1,4 @@
-import Homepage from './pages/Homepage/homepage';
+import Homepage from './pages/Homepage/Homepage';
 import Login from './pages/Login/Login';
 import React, { useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";

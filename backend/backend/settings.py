@@ -145,14 +145,14 @@ USE_I18N = True
 USE_TZ = True
 
 # Add the path to your React build directory
-REACT_APP_DIR = os.path.join(BASE_DIR, '../frontend/build')
+REACT_APP_DIR = os.path.join(BASE_DIR, '..', 'frontend', 'build')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, '..', 'frontend', 'build', 'static'),
+    os.path.join(REACT_APP_DIR, 'static'),
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

@@ -9,8 +9,8 @@ import json
 from .models import User
 
 # Create your views here.
-def index(request):
-     return render(request, 'index.html')
+# def index(request):
+#      return render(request, 'index.html')
 
 #Sign in Function
 @csrf_exempt
