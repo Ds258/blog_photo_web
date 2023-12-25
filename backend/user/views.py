@@ -4,12 +4,13 @@ from django.contrib.auth import login
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import make_password
 from .settings import SettingsBackend
+from django.conf import settings
 import json
 from .models import User
 
 # Create your views here.
 def index(request):
-    return render(request, 'index.html')
+     return render(request, 'index.html')
 
 #Sign in Function
 @csrf_exempt
