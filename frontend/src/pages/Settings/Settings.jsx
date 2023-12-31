@@ -13,7 +13,7 @@ export default function Settings() {
     const [new_password, setNewPassword] = useState('');
     const { user, dispatch } = useContext(Context);
 
-    const handleSubmit = async(event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         const data = {
@@ -24,48 +24,45 @@ export default function Settings() {
             dob: DOB,
             avatar: avatar,
         }
-    } 
+    }
 
     return (
-        <div>
-            <Navbar />
-            <div className="align-items-center settings">
-                <main className="form-settings">
-                    <h1 className="h3 mb-3 fw-normal text-center">Change your settings</h1>
-                    <form>
-                        <div class="mb-3">
-                            <label for="formFile" class="form-label imageLabel">Choose your avatar</label>
-                            <input class="form-control" type="file" id="formFile"/>
-                        </div>
-                        <div className="form-floating username-settings">
-                            <input type="text" className="form-control" id="floatingUser" placeholder="username" value={user.username} onChange={(e) => setUsername(e.target.value)} />
-                            <label htmlFor="floatingUser">Username</label>
-                        </div>
-                        <div className="form-floating DOB-settings">
-                            <input type="date" className="form-control" id="floatingDOB" placeholder="Date of Birth" value={user.dob} onChange={(e) => setDOB(e.target.value)} />
-                            <label htmlFor="floatingDOB">Date of Birth</label>
-                        </div>
-                        <div className="form-floating email-settings">
-                            <input type="email" className="form-control" id="floatingEmail" placeholder="name@example.com" value={user.email} onChange={(e) => setEmail(e.target.value)} />
-                            <label htmlFor="floatingEmail">Email Address</label>
-                        </div>
-                        <div className="form-floating password-settings">
-                            <input type="password" className="form-control" id="floatingPassword" placeholder="123456" value={password} onChange={(e) => setPassword(e.target.value)} />
-                            <label htmlFor="floatingPassword">Old Password</label>
-                        </div>
-                        <div className="form-floating password-settings">
-                            <input type="password" className="form-control" id="floatingPassword" placeholder="123456" value={password} onChange={(e) => setPassword(e.target.value)} />
-                            <label htmlFor="floatingPassword">New Password</label>
-                        </div>
-                        <div className="form-floating password-settings">
-                            <input type="password" className="form-control" id="floatingPassword" placeholder="123456" value={password} onChange={(e) => setPassword(e.target.value)} />
-                            <label htmlFor="floatingPassword">Confirm Password</label>
-                        </div>
-                        <div style={{"textAlign": "center"}}><button className="w-50 btn btn-lg btn-primary saveSettingButton" type="submit">Save</button></div>
-                    </form>
-                </main>
-            </div>
-        </div>
 
+        <div className="align-items-center settings">
+            <main className="form-settings">
+                <h1 className="h3 mb-3 fw-normal text-center">Change your settings</h1>
+                <form>
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label imageLabel">Choose your avatar</label>
+                        <input class="form-control" type="file" id="formFile" />
+                    </div>
+                    <div className="form-floating username-settings">
+                        <input type="text" className="form-control" id="floatingUser" placeholder="username" value={user.username} onChange={(e) => setUsername(e.target.value)} />
+                        <label htmlFor="floatingUser">Username</label>
+                    </div>
+                    <div className="form-floating DOB-settings">
+                        <input type="date" className="form-control" id="floatingDOB" placeholder="Date of Birth" value={user.dob} onChange={(e) => setDOB(e.target.value)} />
+                        <label htmlFor="floatingDOB">Date of Birth</label>
+                    </div>
+                    <div className="form-floating email-settings">
+                        <input type="email" className="form-control" id="floatingEmail" placeholder="name@example.com" value={user.email} onChange={(e) => setEmail(e.target.value)} />
+                        <label htmlFor="floatingEmail">Email Address</label>
+                    </div>
+                    <div className="form-floating password-settings">
+                        <input type="password" className="form-control" id="floatingPassword" placeholder="123456" value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <label htmlFor="floatingPassword">Old Password</label>
+                    </div>
+                    <div className="form-floating password-settings">
+                        <input type="password" className="form-control" id="floatingPassword" placeholder="123456" value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <label htmlFor="floatingPassword">New Password</label>
+                    </div>
+                    <div className="form-floating password-settings">
+                        <input type="password" className="form-control" id="floatingPassword" placeholder="123456" value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <label htmlFor="floatingPassword">Confirm Password</label>
+                    </div>
+                    <div style={{ "textAlign": "center" }}><button className="w-50 btn btn-lg btn-primary saveSettingButton" type="submit">Save</button></div>
+                </form>
+            </main>
+        </div>
     )
 }

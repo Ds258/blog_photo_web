@@ -5,13 +5,15 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Signup from './pages/Sign_up/Sign_up';
 import { Context } from './context/Context';
 import Settings from './pages/Settings/Settings';
+import Navbar from './components/common/Navbar/Navbar';
 
 function App() {
   const { user } = useContext(Context);
   return (
     <Router>
+      <Navbar/>
       <Routes>
-        <Route key="home" path="/" element={<Homepage />} />
+        <Route key="home" exact path="/" element={<Homepage />} />
         <Route path="/signin" element={user ? <Homepage /> : <Login />} />
         <Route path="/signup" element={user ? <Homepage /> : <Signup />} />
         <Route path="/settings" element={<Settings/>}/>

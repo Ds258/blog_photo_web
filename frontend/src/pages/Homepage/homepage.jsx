@@ -9,7 +9,6 @@ import Navbar from "../../components/common/Navbar/Navbar";
 export default function homepage() {
     return (
         <div>
-            <Navbar/>
             <Slider/>
             <WN/>
             <Discovery/>
