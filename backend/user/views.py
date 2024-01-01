@@ -10,8 +10,10 @@ from .serializer import UserSerializer
 from .settings import SettingsBackend
 from django.conf import settings
 from .models import User
+from django.views.decorators.csrf import csrf_exempt
 
 class AuthUser(APIView):
+    #@csrf_exempt
     @permission_classes([AllowAny])
     def post(self, request):
         username = request.data.get('username')

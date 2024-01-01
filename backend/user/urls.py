@@ -10,7 +10,7 @@ urlpatterns = [
     #re_path(r'', TemplateView.as_view(template_name='index.html')),
     path('signin/', views.AuthUser.as_view(), name='signin'), #login
     #path('signin/', views.signin, name='signin'),
-    path('signup/', views.signup, name='signup'), #signup
+    #path('signup/', views.signup, name='signup'), #signup
     path('test/', views.getData, name='getData')
     #path('api/getinfo/', views.get_user_info, name='get_user_info') #Get user information
 ]
