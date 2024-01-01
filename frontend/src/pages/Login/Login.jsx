@@ -21,7 +21,7 @@ export default function Login() {
         dispatch({type: "LOGIN_START"});
 
         try {
-            const response = await axios.post('http://localhost:8000/api/signin/', data); //send request to django
+            const response = await axios.post('http://localhost:8000/user/signin/', data); //send request to django
             console.log(response.data);
             if (response.data.status === 'ok') { //if login is successfull
                 navigate("/"); //navigate back to home page

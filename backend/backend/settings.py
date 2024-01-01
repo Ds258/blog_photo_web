@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
-    'frontend.apps.FrontendConfig',
 ]
 
 MIDDLEWARE = [
@@ -92,7 +91,7 @@ DATABASES = {
 
 
 CORS_ALLOWED_ORIGINS = [
-  'http://127.0.0.1:8000', "http://localhost:3000"
+  "http://localhost:3000"
 ]
 
 CSRF_HEADER_NAME = 'HTTP_X_CSRFTOKEN'
@@ -153,9 +152,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(REAL_BASE_DIR, 'frontend', 'build', 'static')]
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
