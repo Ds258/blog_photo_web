@@ -35,7 +35,7 @@ export default function Footer() {
                         </div>
                     </div>
                     <div className="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
-                        <p style={{ color: "white" }}>@2023 Ca Chua Company, Inc. All rights reserved</p>
+                        <p style={{ color: "white" }}>@2024 Snow Company, Inc. All rights reserved</p>
                         <ul className="list-unstyled d-flex">
                             <li className="ms-3">
                                 <a className="link-primary" href="#">

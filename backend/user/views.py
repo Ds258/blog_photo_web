@@ -11,10 +11,12 @@ from .settings import SettingsBackend
 from django.conf import settings
 from .models import User
 from django.views.decorators.csrf import csrf_exempt
+import json
 
 class AuthUser(APIView):
     #@csrf_exempt
     @permission_classes([AllowAny])
+    @api_view(['POST'])
     def post(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
@@ -22,7 +24,8 @@ class AuthUser(APIView):
         user = SettingsBackend.authenticate(request, username=username, password=password) 
         if user is not None:
             login(request, user)
-            return Response({'status': 'ok'})
+            data = UserSerializer(user).data
+            return Response({'status': 'ok', 'data': data}, status=status.HTTP_200_OK) #must have status code
         else:
              return Response({'status': 'error'}, status=status.HTTP_401_UNAUTHORIZED)
 

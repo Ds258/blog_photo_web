@@ -11,3 +11,5 @@ class User(models.Model):
     create_date = models.DateTimeField(auto_now_add=True, null=True)
     is_active = models.BooleanField(default=True)
     last_login = models.DateTimeField(('last login'), blank=True, null=True)
+
+    

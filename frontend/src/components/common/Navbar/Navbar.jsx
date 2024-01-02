@@ -45,10 +45,10 @@ export default function Navbar() {
                 </div>
                 <div className="collapse navbar-collapse justify-content-end user" id="navbarSupportedContent">
                     {user ? (
-                        <div class="dropdown dropdownUser">
-                            <button class="btn buttonUser" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <div className="dropdown dropdownUser">
+                            <button className="btn buttonUser" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img className="userpic" src="https://www.kindpng.com/picc/m/563-5634840_cheems-doge-transparent-hd-png-download.png" alt="Cheems Doge Transparent, HD Png Download@kindpng.com" />
-                                <span className="username">{user.username}</span>
+                                <span className="username">{user.data.username}</span>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                 <Link to="/settings" style={{"textDecoration": "none"}}><li><a class="dropdown-item" href="">Settings</a></li></Link>

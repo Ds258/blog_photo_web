@@ -107,10 +107,10 @@ CORS_ALLOW_HEADERS = [
 ]
 CORS_ALLOW_CREDENTIALS = True
 CSRF_TRUSTED_ORIGINS = ['http://localhost:3000', 'http://127.0.0.1:8000']
-CSRF_COOKIE_DOMAIN = 'http://192.168.56.1:3000'
-CSRF_COOKIE_PATH = 'http://localhost:3000'
+CSRF_COOKIE_DOMAIN = 'localhost:3000'
+CSRF_COOKIE_PATH = '/'
 SESSION_COOKIE_DOMAIN = 'http://localhost:3000'
-CSRF_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False # Change to False for development with HTTP
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
