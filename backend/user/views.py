@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -10,13 +9,13 @@ from .serializer import UserSerializer
 from .settings import SettingsBackend
 from django.conf import settings
 from .models import User
-from django.views.decorators.csrf import csrf_exempt
 import json
+from django.contrib.auth.hashers import make_password
 
-class AuthUser(APIView):
+class UserSignin(APIView):
     #@csrf_exempt
     @permission_classes([AllowAny])
-    @api_view(['POST'])
+    #@api_view(['POST'])
     def post(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
@@ -27,7 +26,22 @@ class AuthUser(APIView):
             data = UserSerializer(user).data
             return Response({'status': 'ok', 'data': data}, status=status.HTTP_200_OK) #must have status code
         else:
-             return Response({'status': 'error'}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({'status': 'error'}, status=status.HTTP_401_UNAUTHORIZED)
+
+class UserSignup(APIView):
+    @permission_classes([AllowAny])
+    def post(self, request):
+        new_username = request.data.get('new_username')
+        new_password = request.data.get('new_password')
+        new_email = request.data.get('new_email')
+        new_DOB = request.data.get('new_DOB')
+        if SettingsBackend.check_exist(request, new_username):
+            return Response({'status': 'exist'}, status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            user = User.objects.create(username=new_username , password=new_password , email=new_email, DOB=new_DOB, privilege=True)
+            user.password = make_password(new_password)
+            user.save()
+            return Response({'status': 'success'}, status=status.HTTP_200_OK)
 
     # @csrf_exempt
     # def signin(request):
@@ -49,16 +63,18 @@ class AuthUser(APIView):
     #             return JsonResponse({'status': 'error'})
     #     return JsonResponse({'status': 'error'})
 
+
+
     # @csrf_exempt
     # def signup(request):
     #     if request.method == 'POST':        
     #         data = json.loads(request.body) #get the request and fill in data variable
-    #         username = data.get('username')
-    #         password = data.get('password')
-    #         email = data.get('email')
-    #         DOB = data.get('DOB')
-    #         if SettingsBackend.check_exist(request, username):
-    #             return JsonResponse({'status': 'exist'})
+            # username = data.get('username')
+            # password = data.get('password')
+            # email = data.get('email')
+            # DOB = data.get('DOB')
+            # if SettingsBackend.check_exist(request, username):
+            #     return JsonResponse({'status': 'exist'})
     #         else:
     #             user = User.objects.create(username=username , password=password , email=email, DOB=DOB, privilege=True)
     #             user.password = make_password(password)

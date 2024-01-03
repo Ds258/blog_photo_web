@@ -8,7 +8,8 @@ from django.contrib.staticfiles.views import serve
 urlpatterns = [
     #path('', views.index, name='index'), #homepage
     #re_path(r'', TemplateView.as_view(template_name='index.html')),
-    path('signin/', views.AuthUser.as_view(), name='signin'), #login
+    path('signin/', views.UserSignin.as_view(), name='signin'), #login
+    path('signup/', views.UserSignup.as_view(), name='signup'),
     #path('signin/', views.signin, name='signin'),
     #path('signup/', views.signup, name='signup'), #signup
     path('test/', views.getData, name='getData')

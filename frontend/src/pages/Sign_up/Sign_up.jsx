@@ -14,14 +14,14 @@ export default function Signup() {
         event.preventDefault();
 
         const data = {
-            username: username,
-            password: password,
-            email: email,
-            DOB: DOB
+            new_username: username,
+            new_password: password,
+            new_email: email,
+            new_DOB: DOB
         };
 
         try {
-            const response = await axios.post('http://localhost:8000/api/signup/', data);
+            const response = await axios.post('http://localhost:8000/user/signup/', data);
             console.log(response.data);
             if(response.data.status === 'success') {
                 navigate("/signin");

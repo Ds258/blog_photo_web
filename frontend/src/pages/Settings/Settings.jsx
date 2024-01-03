@@ -37,15 +37,15 @@ export default function Settings() {
                         <input class="form-control" type="file" id="formFile" />
                     </div>
                     <div className="form-floating username-settings">
-                        <input type="text" className="form-control" id="floatingUser" placeholder="username" value={user.username} onChange={(e) => setUsername(e.target.value)} />
+                        <input type="text" className="form-control" id="floatingUser" placeholder="username" value={user.data.username} onChange={(e) => setUsername(e.target.value)} />
                         <label htmlFor="floatingUser">Username</label>
                     </div>
                     <div className="form-floating DOB-settings">
-                        <input type="date" className="form-control" id="floatingDOB" placeholder="Date of Birth" value={user.dob} onChange={(e) => setDOB(e.target.value)} />
+                        <input type="date" className="form-control" id="floatingDOB" placeholder="Date of Birth" value={user.data.DOB} onChange={(e) => setDOB(e.target.value)} />
                         <label htmlFor="floatingDOB">Date of Birth</label>
                     </div>
                     <div className="form-floating email-settings">
-                        <input type="email" className="form-control" id="floatingEmail" placeholder="name@example.com" value={user.email} onChange={(e) => setEmail(e.target.value)} />
+                        <input type="email" className="form-control" id="floatingEmail" placeholder="name@example.com" value={user.data.email} onChange={(e) => setEmail(e.target.value)} />
                         <label htmlFor="floatingEmail">Email Address</label>
                     </div>
                     <div className="form-floating password-settings">
