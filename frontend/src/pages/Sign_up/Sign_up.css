@@ -16,7 +16,7 @@
 }
 
 .username {
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
     margin-left: 0;
     margin-right: 0;
 }
@@ -26,17 +26,21 @@
 }
 
 .DOB {
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
     margin-left: 0;
     margin-right: 0;
 }
 
 .email {
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
 }
 
 .password {
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
+}
+
+.phone_number {
+    margin-bottom: 1rem;
 }
 
 .copyright {

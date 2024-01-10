@@ -4,10 +4,13 @@ import React, { useEffect, useState } from "react";
 import axios from 'axios';
 
 export default function Signup() {
+    const [step, setStep] = useState(1);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [DOB, setDOB] = useState('')
+    const [phone_number, setPhoneNumber] = useState('');
+    const [profilePicture, setProfilePicture] = useState(null);
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
@@ -17,49 +20,147 @@ export default function Signup() {
             new_username: username,
             new_password: password,
             new_email: email,
-            new_DOB: DOB
+            new_DOB: DOB,
+            new_phoneNumber: phone_number,
+            new_profilePicture: profilePicture
         };
 
-        try {
-            const response = await axios.post('http://localhost:8000/user/signup/', data);
-            console.log(response.data);
-            if(response.data.status === 'success') {
-                navigate("/signin");
-            } else if(response.data.status === 'exist') {
-                alert("Username is already exists")
+        if (step === 1) {
+            setStep(2);
+        } else if (step === 2) {
+            try {
+                const response = await axios.post('http://localhost:8000/user/signup/', data);
+                console.log(response.data);
+                if (response.data.status === 'success') {
+                    navigate("/signin");
+                } else if (response.data.status === 'exist') {
+                    alert("Username is already exists")
+                }
+            } catch (error) {
+                console.error('An error occurred while logging in:', error);
             }
-        } catch (error) {
-            console.error('An error occurred while logging in:', error);
+        }
+    };
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+
+        // Check if a file is selected
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onloadend = () => {
+                setProfilePicture(reader.result);
+            };
+
+            reader.readAsDataURL(file);
         }
     };
 
     return (
-        <div className="text-center align-items-center signup">
-            <main className="form-signup">
+        <div>
+            {step === 1 && (
+                <div className="text-center align-items-center signup">
+                    <main className="form-signup">
+                        <form onSubmit={handleSubmit}>
+                            <h1 className="h3 mb-3 fw-normal">Sign up</h1>
+                            <div className="form-floating username">
+                                <input type="text" className="form-control" id="floatingUser" placeholder="username" value={username} onChange={(e) => setUsername(e.target.value)} />
+                                <label htmlFor="floatingUser">Username</label>
+                            </div>
+                            <div className="form-floating DOB">
+                                <input type="date" className="form-control" id="floatingDOB" placeholder="Date of Birth" value={DOB} onChange={(e) => setDOB(e.target.value)} />
+                                <label htmlFor="floatingDOB">Date of Birth</label>
+                            </div>
+                            <div className="form-floating email">
+                                <input type="email" className="form-control" id="floatingEmail" placeholder="name@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                <label htmlFor="floatingEmail">Email Address</label>
+                            </div>
+                            <div className="form-floating phone_number">
+                                <input type="number" className="form-control" id="floatingPhoneNumber" placeholder="0912345678" value={phone_number} onChange={(e) => setPhoneNumber(e.target.value)} />
+                                <label htmlFor="floatingPhoneNumber">Phone Number</label>
+                            </div>
+                            <div className="form-floating password">
+                                <input type="password" className="form-control" id="floatingPassword" placeholder="123456" value={password} onChange={(e) => setPassword(e.target.value)} />
+                                <label htmlFor="floatingPassword">Password</label>
+                            </div>
+                            <button className="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
+                            <h3 className="h6 mt-3 mb-2 fw-bold">Already have an account? Sign in now</h3>
+                            <Link to="/signin"><button className="w-100 btn btn-lg btn-danger" type="submit">Sign in</button></Link>
+                            <p className="mt-4 copyright">© 2024</p>
+                        </form>
+                    </main>
+                </div>
+            )}
+
+            {step === 2 && (
                 <form onSubmit={handleSubmit}>
-                    <h1 className="h3 mb-3 fw-normal">Sign up</h1>
-                    <div className="form-floating username">
-                        <input type="text" className="form-control" id="floatingUser" placeholder="username" value={username} onChange={(e) => setUsername(e.target.value)} />
-                        <label htmlFor="floatingUser">Username</label>
+                    {/* Step 2: Profile picture */}
+                    <div className="container" style={{ "width": "calc(60vh)" }}>
+                        <div className="form-group">
+                            <div className="text-center">
+                                <label htmlFor="profilePicture" className="image-upload-placeholder">
+                                    {profilePicture ? (
+                                        <img
+                                            src={profilePicture}
+                                            alt="Selected"
+                                            className="rounded-circle"
+                                            style={{ width: '12rem', height: '12rem' }}
+                                        />
+                                    ) : (
+                                        <div className="default-placeholder rounded-circle" style={{ width: '12rem', height: '12rem' }}></div>
+                                    )}
+                                </label>
+                            </div>
+                            <br />
+                            <div className="row">
+                                <label htmlFor="profilePicture" className="col-lg-4">Profile Picture</label>
+                                <div className="col-lg-8">
+                                    <input
+                                        type="file"
+                                        className="form-control"
+                                        id="profilePicture"
+                                        onChange={handleImageChange}
+                                    />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div className="form-group row justify-content-center">
+                            <label className="col-lg-4">Username</label>
+                            <div className="col-lg-8">
+                                <h6>{username}</h6>
+                            </div>
+                        </div>
+                        <div className="form-group row justify-content-center">
+                            <label className="col-lg-4">Date of Birth</label>
+                            <div className="col-lg-8">
+                                <h6>{DOB}</h6>
+                            </div>
+                        </div>
+                        <div className="form-group row justify-content-center">
+                            <label className="col-lg-4">Email</label>
+                            <div className="col-lg-8">
+                                <h6>{email}</h6>
+                            </div>
+                        </div>
+                        <div className="form-group row justify-content-center">
+                            <label className="col-lg-4">Phone Number</label>
+                            <div className="col-lg-8">
+                                <h6>{phone_number}</h6>
+                            </div>
+                        </div>
                     </div>
-                    <div className="form-floating DOB">
-                        <input type="date" className="form-control" id="floatingDOB" placeholder="Date of Birth" value={DOB} onChange={(e) => setDOB(e.target.value)} />
-                        <label htmlFor="floatingDOB">Date of Birth</label>
+                    <div className="text-center">
+                        <button className="w-40 btn btn-lg btn-secondary" type="reset" style={{ "marginRight": "0.5rem" }}>
+                            Back
+                        </button>
+                        <button className="w-40 btn btn-lg btn-primary" type="submit">
+                            Complete
+                        </button>
                     </div>
-                    <div className="form-floating email">
-                        <input type="email" className="form-control" id="floatingEmail" placeholder="name@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
-                        <label htmlFor="floatingEmail">Email Address</label>
-                    </div>
-                    <div className="form-floating password">
-                        <input type="password" className="form-control" id="floatingPassword" placeholder="123456" value={password} onChange={(e) => setPassword(e.target.value)} />
-                        <label htmlFor="floatingPassword">Password</label>
-                    </div>
-                    <button className="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
-                    <h3 className="h6 mt-3 mb-2 fw-bold">Already have an account? Sign in now</h3>
-                    <Link to="/signin"><button className="w-100 btn btn-lg btn-danger" type="submit">Sign in</button></Link>
-                    <p className="mt-4 copyright">© 2023</p>
                 </form>
-            </main>
+            )}
         </div>
     )
 }
