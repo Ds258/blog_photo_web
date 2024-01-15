@@ -11,6 +11,9 @@ from django.conf import settings
 from .models import User
 import json
 from django.contrib.auth.hashers import make_password
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 class UserSignin(APIView):
     #@csrf_exempt
@@ -35,10 +38,19 @@ class UserSignup(APIView):
         new_password = request.data.get('new_password')
         new_email = request.data.get('new_email')
         new_DOB = request.data.get('new_DOB')
+        new_phoneNumber = request.data.get('new_phoneNumber')
+        profile_picture = request.data.get('new_profilePicture')
+        # upload_result = None
+        # if 'new_profilePicture' in request.FILES:
+        #     profile_picture = request.FILES['new_profilePicture']
+
+        #     # Upload image to Cloudinary
+        #     upload_result = cloudinary.uploader.upload(profile_picture)
+
         if SettingsBackend.check_exist(request, new_username):
             return Response({'status': 'exist'}, status=status.HTTP_401_UNAUTHORIZED)
         else:
-            user = User.objects.create(username=new_username , password=new_password , email=new_email, DOB=new_DOB, privilege=True)
+            user = User.objects.create(username=new_username, profile_pic=profile_picture, password=new_password , email=new_email, DOB=new_DOB, phone_number=new_phoneNumber, privilege=True)
             user.password = make_password(new_password)
             user.save()
             return Response({'status': 'success'}, status=status.HTTP_200_OK)

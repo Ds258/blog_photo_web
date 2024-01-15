@@ -47,7 +47,7 @@ export default function Navbar() {
                     {user ? (
                         <div className="dropdown dropdownUser">
                             <button className="btn buttonUser" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img className="userpic" src="https://www.kindpng.com/picc/m/563-5634840_cheems-doge-transparent-hd-png-download.png" alt="Cheems Doge Transparent, HD Png Download@kindpng.com" />
+                                <img className="userpic" src={user.data.profile_pic} alt="Avatar" />
                                 <span className="username">{user.data.username}</span>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">

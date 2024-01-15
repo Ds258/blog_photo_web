@@ -2,13 +2,14 @@ import "./Sign_up.css"
 import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
+import Axios from 'axios';
 
 export default function Signup() {
     const [step, setStep] = useState(1);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [DOB, setDOB] = useState('')
+    const [DOB, setDOB] = useState('');
     const [phone_number, setPhoneNumber] = useState('');
     const [profilePicture, setProfilePicture] = useState(null);
     const navigate = useNavigate();
@@ -22,17 +23,26 @@ export default function Signup() {
             new_email: email,
             new_DOB: DOB,
             new_phoneNumber: phone_number,
-            new_profilePicture: profilePicture
+            new_profilePicture: profilePicture, 
         };
 
         if (step === 1) {
+            //Add conditional to check if empty or regex
             setStep(2);
         } else if (step === 2) {
+            const formData = new FormData();
+            formData.append("file", profilePicture);
+            formData.append("upload_preset", "zdug8flf");
+            Axios.post('https://api-ap.cloudinary.com/v1_1/diih7pze7/image/upload/Code%20Training%20Web/Profile/', formData).then((response) => {
+                console.log(response);
+            })
+
             try {
                 const response = await axios.post('http://localhost:8000/user/signup/', data);
                 console.log(response.data);
                 if (response.data.status === 'success') {
                     navigate("/signin");
+                    
                 } else if (response.data.status === 'exist') {
                     alert("Username is already exists")
                 }
@@ -53,14 +63,22 @@ export default function Signup() {
                 setProfilePicture(reader.result);
             };
 
+            console.log(profilePicture)
+
             reader.readAsDataURL(file);
         }
     };
 
+    const handleReset = () => {
+        setStep(1);
+        // Clear profilePicture when going back to step 1
+        setProfilePicture(null);
+    };
+
     return (
-        <div>
+        <div className="signup justify-content-center align-items-center">
             {step === 1 && (
-                <div className="text-center align-items-center signup">
+                <div className="text-center">
                     <main className="form-signup">
                         <form onSubmit={handleSubmit}>
                             <h1 className="h3 mb-3 fw-normal">Sign up</h1>
@@ -84,7 +102,8 @@ export default function Signup() {
                                 <input type="password" className="form-control" id="floatingPassword" placeholder="123456" value={password} onChange={(e) => setPassword(e.target.value)} />
                                 <label htmlFor="floatingPassword">Password</label>
                             </div>
-                            <button className="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
+                            <button className="w-100 btn btn-lg btn-primary" type="submit" style={{"marginBottom": "1rem"}}>Sign up</button>
+                            <button className="w-100 btn btn-lg btn-primary" type="">Sign up with Google</button>
                             <h3 className="h6 mt-3 mb-2 fw-bold">Already have an account? Sign in now</h3>
                             <Link to="/signin"><button className="w-100 btn btn-lg btn-danger" type="submit">Sign in</button></Link>
                             <p className="mt-4 copyright">© 2024</p>
@@ -94,72 +113,80 @@ export default function Signup() {
             )}
 
             {step === 2 && (
-                <form onSubmit={handleSubmit}>
-                    {/* Step 2: Profile picture */}
-                    <div className="container" style={{ "width": "calc(60vh)" }}>
-                        <div className="form-group">
-                            <div className="text-center">
-                                <label htmlFor="profilePicture" className="image-upload-placeholder">
-                                    {profilePicture ? (
-                                        <img
-                                            src={profilePicture}
-                                            alt="Selected"
-                                            className="rounded-circle"
-                                            style={{ width: '12rem', height: '12rem' }}
+                <main className="complete_signup">
+                    <form onSubmit={handleSubmit}>
+                        {/* Step 2: Profile picture */}
+                        <div className="container" style={{ "width": "calc(50vh)" }}>
+                            <div className="form-group">
+                                <div className="text-center">
+                                    <label htmlFor="profilePicture" className="image-upload-placeholder">
+                                        {profilePicture ? (
+                                            <img
+                                                src={profilePicture}
+                                                alt="Selected"
+                                                className="rounded-circle"
+                                                style={{ width: '12rem', height: '12rem' }}
+                                            />
+                                        ) : (
+                                            <div className="default-placeholder rounded-circle" style={{ width: '12rem', height: '12rem' }}>
+                                                <img
+                                                    src={'profile.png'}
+                                                    alt="None picture"
+                                                    className="rounded-circle"
+                                                    style={{ width: '12rem', height: '12rem' }}
+                                                />
+                                            </div>
+                                        )}
+                                    </label>
+                                </div>
+                                <br />
+                                <div className="row">
+                                    <label htmlFor="profilePicture" className="col-lg-4">Profile Picture</label>
+                                    <div className="col-lg-8">
+                                        <input
+                                            type="file"
+                                            className="form-control"
+                                            id="profilePicture"
+                                            onChange={handleImageChange}
                                         />
-                                    ) : (
-                                        <div className="default-placeholder rounded-circle" style={{ width: '12rem', height: '12rem' }}></div>
-                                    )}
-                                </label>
-                            </div>
-                            <br />
-                            <div className="row">
-                                <label htmlFor="profilePicture" className="col-lg-4">Profile Picture</label>
-                                <div className="col-lg-8">
-                                    <input
-                                        type="file"
-                                        className="form-control"
-                                        id="profilePicture"
-                                        onChange={handleImageChange}
-                                    />
+                                    </div>
                                 </div>
                             </div>
-
-                        </div>
-                        <div className="form-group row justify-content-center">
-                            <label className="col-lg-4">Username</label>
-                            <div className="col-lg-8">
-                                <h6>{username}</h6>
+                            <div className="form-group row justify-content-center">
+                                <label className="col-lg-4">Username</label>
+                                <div className="col-lg-8">
+                                    <h6>{username}</h6>
+                                </div>
+                            </div>
+                            <div className="form-group row justify-content-center">
+                                <label className="col-lg-4">Date of Birth</label>
+                                <div className="col-lg-8">
+                                    <h6>{DOB}</h6>
+                                </div>
+                            </div>
+                            <div className="form-group row justify-content-center">
+                                <label className="col-lg-4">Email</label>
+                                <div className="col-lg-8">
+                                    <h6>{email}</h6>
+                                </div>
+                            </div>
+                            <div className="form-group row justify-content-center">
+                                <label className="col-lg-4">Phone Number</label>
+                                <div className="col-lg-8">
+                                    <h6>{phone_number}</h6>
+                                </div>
                             </div>
                         </div>
-                        <div className="form-group row justify-content-center">
-                            <label className="col-lg-4">Date of Birth</label>
-                            <div className="col-lg-8">
-                                <h6>{DOB}</h6>
-                            </div>
+                        <div className="text-center">
+                            <button className="w-40 btn btn-lg btn-secondary" type="reset" onClick={handleReset} style={{ "marginRight": "0.5rem" }}>
+                                Back
+                            </button>
+                            <button className="w-40 btn btn-lg btn-primary" type="submit">
+                                Complete
+                            </button>
                         </div>
-                        <div className="form-group row justify-content-center">
-                            <label className="col-lg-4">Email</label>
-                            <div className="col-lg-8">
-                                <h6>{email}</h6>
-                            </div>
-                        </div>
-                        <div className="form-group row justify-content-center">
-                            <label className="col-lg-4">Phone Number</label>
-                            <div className="col-lg-8">
-                                <h6>{phone_number}</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="text-center">
-                        <button className="w-40 btn btn-lg btn-secondary" type="reset" style={{ "marginRight": "0.5rem" }}>
-                            Back
-                        </button>
-                        <button className="w-40 btn btn-lg btn-primary" type="submit">
-                            Complete
-                        </button>
-                    </div>
-                </form>
+                    </form>
+                </main>
             )}
         </div>
     )
