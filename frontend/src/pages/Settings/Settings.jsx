@@ -27,7 +27,6 @@ export default function Settings() {
     }
 
     return (
-
         // <div className="align-items-center settings">
         //     <main className="form-settings">
         //         <h1 className="h3 mb-3 fw-normal text-center">Change your settings</h1>
@@ -71,7 +70,7 @@ export default function Settings() {
                         <div className="card">
                             <div className="card-body text-center bg-primary rounded-top">
                                 <div className="user-box">
-                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user avatar" />
+                                    <img src={user.data.profile_pic} alt="user avatar" />
                                 </div>
                                 <h5 className="mb-1 text-white">{user.data.username}</h5>
                                 <h6 className="text-light">Rank: {}</h6>

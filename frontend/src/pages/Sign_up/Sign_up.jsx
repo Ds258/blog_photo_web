@@ -12,6 +12,7 @@ export default function Signup() {
     const [DOB, setDOB] = useState('');
     const [phone_number, setPhoneNumber] = useState('');
     const [profilePicture, setProfilePicture] = useState(null);
+    const [imageURL, setImageURL] = useState('');
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
@@ -33,8 +34,15 @@ export default function Signup() {
             const formData = new FormData();
             formData.append("file", profilePicture);
             formData.append("upload_preset", "zdug8flf");
-            Axios.post('https://api-ap.cloudinary.com/v1_1/diih7pze7/image/upload/Code%20Training%20Web/Profile/', formData).then((response) => {
-                console.log(response);
+            Axios.post('https://api.cloudinary.com/v1_1/diih7pze7/image/upload/', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    // Include other headers as needed, such as Authorization
+                },
+            }).then((response) => {
+                const image = response.data.secure_url;
+                setImageURL(image);
+                console.log(image)
             })
 
             try {

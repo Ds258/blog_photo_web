@@ -11,9 +11,6 @@ from django.conf import settings
 from .models import User
 import json
 from django.contrib.auth.hashers import make_password
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
 
 class UserSignin(APIView):
     #@csrf_exempt
