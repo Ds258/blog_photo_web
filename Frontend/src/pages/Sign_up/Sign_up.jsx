@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import "./Sign_up.css"
 import { Link, useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from 'axios';
 import Axios from 'axios';
 
@@ -10,8 +10,8 @@ export default function Signup() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [DOB, setDOB] = useState('');
-    const [phone_number, setPhoneNumber] = useState('');
+    // const [DOB, setDOB] = useState('');
+    // const [phone_number, setPhoneNumber] = useState('');
     const [profilePicture, setProfilePicture] = useState(null);
     const [imageURL, setImageURL] = useState('');
     const navigate = useNavigate();
@@ -23,38 +23,50 @@ export default function Signup() {
             new_username: username,
             new_password: password,
             new_email: email,
+            new_avatar: imageURL,
         };
 
+        
         if (step === 1) {
             //Add conditional to check if empty or regex
             setStep(2);
         } else if (step === 2) {
             const formData = new FormData();
             formData.append("file", profilePicture);
-            formData.append("upload_preset", "zdug8flf");
-            Axios.post('https://api.cloudinary.com/v1_1/diih7pze7/image/upload/', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    // Include other headers as needed, such as Authorization
-                },
-            }).then((response) => {
-                const image = response.data.secure_url;
-                setImageURL(image);
-                console.log(image)
-            })
+            formData.append("upload_preset", "fokolbfy");
+            formData.append("folder", "Blog_Photo_Website/Avatar");
+            formData.append("api_key", "135497366991663");
+            // Axios.post('https://api.cloudinary.com/v1_1/diih7pze7/upload/', formData, {
+            //     headers: {
+            //         'Content-Type': 'multipart/form-data',
+            //         // Include other headers as needed, such as Authorization
+            //     },
+            // }).then((response) => {
+            //     const image = response.data.secure_url;
+            //     setImageURL(image);
+            //     // console.log(image);
+            // }).catch((error) => {
+            //     console.log(error);
+            // })
+            let CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/diih7pze7/upload/';
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', CLOUDINARY_URL, false);
+            xhr.send(formData);
+            const imageResponse = JSON.parse(xhr.responseText);
+            console.log(imageResponse.secure_url);
 
-            try {
-                const response = await axios.post('http://localhost:8000/user/signup/', data);
-                console.log(response.data);
-                if (response.data.status === 'success') {
-                    navigate("/signin");
+            // try {
+            //     const response = await axios.post('http://localhost:8000/user/signup/', data);
+            //     console.log(response.data);
+            //     if (response.data.status === 'success') {
+            //         navigate("/signin");
                     
-                } else if (response.data.status === 'exist') {
-                    alert("Username is already exists")
-                }
-            } catch (error) {
-                console.error('An error occurred while logging in:', error);
-            }
+            //     } else if (response.data.status === 'exist') {
+            //         alert("Username is already exists")
+            //     }
+            // } catch (error) {
+            //     console.error('An error occurred while logging in:', error);
+            // }
         }
     };
 
@@ -69,7 +81,7 @@ export default function Signup() {
                 setProfilePicture(reader.result);
             };
 
-            console.log(profilePicture)
+            // console.log(profilePicture)
 
             reader.readAsDataURL(file);
         }
@@ -89,23 +101,15 @@ export default function Signup() {
                         <form onSubmit={handleSubmit}>
                             <h1 className="h3 mb-3 fw-normal">Sign up</h1>
                             <div className="form-floating username">
-                                <input type="text" className="form-control" id="floatingUser" placeholder="username" value={username} onChange={(e) => setUsername(e.target.value)} />
+                                <input type="text" className="form-control" id="floatingUser" placeholder="username" required value={username} onChange={(e) => setUsername(e.target.value)} />
                                 <label htmlFor="floatingUser">Username</label>
                             </div>
-                            <div className="form-floating DOB">
-                                <input type="date" className="form-control" id="floatingDOB" placeholder="Date of Birth" value={DOB} onChange={(e) => setDOB(e.target.value)} />
-                                <label htmlFor="floatingDOB">Date of Birth</label>
-                            </div>
                             <div className="form-floating email">
-                                <input type="email" className="form-control" id="floatingEmail" placeholder="name@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                <input type="email" className="form-control" id="floatingEmail" placeholder="name@example.com" required value={email} onChange={(e) => setEmail(e.target.value)} />
                                 <label htmlFor="floatingEmail">Email Address</label>
                             </div>
-                            <div className="form-floating phone_number">
-                                <input type="number" className="form-control" id="floatingPhoneNumber" placeholder="0912345678" value={phone_number} onChange={(e) => setPhoneNumber(e.target.value)} />
-                                <label htmlFor="floatingPhoneNumber">Phone Number</label>
-                            </div>
                             <div className="form-floating password">
-                                <input type="password" className="form-control" id="floatingPassword" placeholder="123456" value={password} onChange={(e) => setPassword(e.target.value)} />
+                                <input type="password" className="form-control" id="floatingPassword" placeholder="123456" required value={password} onChange={(e) => setPassword(e.target.value)} />
                                 <label htmlFor="floatingPassword">Password</label>
                             </div>
                             <button className="w-100 btn btn-lg btn-primary" type="submit" style={{"marginBottom": "1rem"}}>Sign up</button>
@@ -136,7 +140,7 @@ export default function Signup() {
                                         ) : (
                                             <div className="default-placeholder rounded-circle" style={{ width: '12rem', height: '12rem' }}>
                                                 <img
-                                                    src={'profile.png'}
+                                                    src="https://www.freepik.com/free-psd/3d-illustration-person-with-glasses_27470335.htm#query=png%20avatars&position=10&from_view=keyword&track=ais&uuid=52ffaccd-259e-459a-b770-80d7ceb15f89"
                                                     alt="None picture"
                                                     className="rounded-circle"
                                                     style={{ width: '12rem', height: '12rem' }}
@@ -165,21 +169,9 @@ export default function Signup() {
                                 </div>
                             </div>
                             <div className="form-group row justify-content-center">
-                                <label className="col-lg-4">Date of Birth</label>
-                                <div className="col-lg-8">
-                                    <h6>{DOB}</h6>
-                                </div>
-                            </div>
-                            <div className="form-group row justify-content-center">
                                 <label className="col-lg-4">Email</label>
                                 <div className="col-lg-8">
                                     <h6>{email}</h6>
-                                </div>
-                            </div>
-                            <div className="form-group row justify-content-center">
-                                <label className="col-lg-4">Phone Number</label>
-                                <div className="col-lg-8">
-                                    <h6>{phone_number}</h6>
                                 </div>
                             </div>
                         </div>

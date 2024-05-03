@@ -25,7 +25,7 @@ def Signin(request):
         
         data = UserSerializer(user).data
 
-        return Response({'status': 'oke', 'data': data}, status=status.HTTP_200_OK)
+        return Response({'status': 'ok', 'data': data}, status=status.HTTP_200_OK)
     else:
         return Response({'status': 'Invalid login'}, status=status.HTTP_404_NOT_FOUND)
     

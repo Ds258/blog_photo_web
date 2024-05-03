@@ -1,7 +1,7 @@
 import "./Login.css"
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Context } from "../../context/Context";
 
 export default function Login() {
@@ -59,7 +59,7 @@ export default function Login() {
                     <button className="w-100 btn btn-lg btn-primary" type="" disabled={isFetching}>Sign in with Google</button>
                     <h3 className="h6 mt-3 mb-2 fw-bold">Not a member yet? Sign up now</h3>
                     <Link to="/signup"><button className="w-100 btn btn-lg btn-danger" type="submit">Sign up</button></Link>
-                    <p className="mt-5 mb-3 copyright">© 2023</p>
+                    <p className="mt-5 mb-3 copyright">© 2024</p>
                 </form>        
             </main>
         </div>
