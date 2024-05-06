@@ -3,7 +3,6 @@ import "./Sign_up.css"
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import axios from 'axios';
-import Axios from 'axios';
 
 export default function Signup() {
     const [step, setStep] = useState(1);
@@ -19,54 +18,63 @@ export default function Signup() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const data = {
-            new_username: username,
-            new_password: password,
-            new_email: email,
-            new_avatar: imageURL,
-        };
-
-        
         if (step === 1) {
             //Add conditional to check if empty or regex
             setStep(2);
         } else if (step === 2) {
             const formData = new FormData();
-            formData.append("file", profilePicture);
-            formData.append("upload_preset", "fokolbfy");
-            formData.append("folder", "Blog_Photo_Website/Avatar");
-            formData.append("api_key", "135497366991663");
-            // Axios.post('https://api.cloudinary.com/v1_1/diih7pze7/upload/', formData, {
-            //     headers: {
-            //         'Content-Type': 'multipart/form-data',
-            //         // Include other headers as needed, such as Authorization
-            //     },
-            // }).then((response) => {
-            //     const image = response.data.secure_url;
-            //     setImageURL(image);
-            //     // console.log(image);
-            // }).catch((error) => {
-            //     console.log(error);
-            // })
-            let CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/diih7pze7/upload/';
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', CLOUDINARY_URL, false);
-            xhr.send(formData);
-            const imageResponse = JSON.parse(xhr.responseText);
-            console.log(imageResponse.secure_url);
+            if (profilePicture !== null) {
+                formData.append("file", profilePicture);
+                formData.append("upload_preset", "fokolbfy");
+                formData.append("folder", "Blog_Photo_Website/Avatar");
+                formData.append("api_key", "135497366991663");
+                // Axios.post('https://api.cloudinary.com/v1_1/diih7pze7/upload/', formData, {
+                //     headers: {
+                //         'Content-Type': 'multipart/form-data',
+                //         // Include other headers as needed, such as Authorization
+                //     },
+                // }).then((response) => {
+                //     const image = response.data.secure_url;
+                //     setImageURL(image);
+                //     // console.log(image);
+                // }).catch((error) => {
+                //     console.log(error);
+                // })
+                let CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/diih7pze7/upload/';
+                const xhr = new XMLHttpRequest();
+                try {
+                    xhr.open('POST', CLOUDINARY_URL, false);
+                    xhr.send(formData);
+                    const imageResponse = JSON.parse(xhr.responseText);
+                    setImageURL(imageResponse.secure_url);
+                } catch (error) {
+                    console.log(error);
+                }
+            } else {
+                setImageURL(null);
+            }
+            
+            // console.log(imageResponse.secure_url);
+            
+            const data = {
+                new_username: username,
+                new_password: password,
+                new_email: email,
+                new_avatar: imageURL,
+            };
 
-            // try {
-            //     const response = await axios.post('http://localhost:8000/user/signup/', data);
-            //     console.log(response.data);
-            //     if (response.data.status === 'success') {
-            //         navigate("/signin");
+            try {
+                const response = await axios.post('http://localhost:8000/user/signup/', data);
+                console.log(response.data);
+                if (response.data.status === 'success') {
+                    navigate("/signin");
                     
-            //     } else if (response.data.status === 'exist') {
-            //         alert("Username is already exists")
-            //     }
-            // } catch (error) {
-            //     console.error('An error occurred while logging in:', error);
-            // }
+                } else if (response.data.status === 'exist') {
+                    alert("Username is already exists")
+                }
+            } catch (error) {
+                console.error('An error occurred while logging in:', error);
+            }
         }
     };
 

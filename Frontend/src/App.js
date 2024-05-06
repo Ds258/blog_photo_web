@@ -16,7 +16,7 @@ function App() {
         <Route key="home" exact path="/" element={<Homepage />} />
         <Route path="/signin" element={user ? <Homepage /> : <Login />} />
         <Route path="/signup" element={user ? <Homepage /> : <Signup />} />
-        <Route path="/settings" element={<Settings/>}/>
+        <Route path="/settings" element={user ? <Settings/> : <Homepage />}/>
       </Routes>
     </Router>    
   );

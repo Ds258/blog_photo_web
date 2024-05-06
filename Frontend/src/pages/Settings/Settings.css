@@ -1,150 +1,108 @@
-/* .form-settings {
-    width: 100%;
-    max-width: calc(75vh);
-    padding: 30px;
-    margin: auto;
-    border-radius: 15px;
-    background-color: rgba(247, 255, 255, 0.5)
+.ui-w-80 {
+    width: 80px !important;
+    height: auto;
 }
 
-.settings{
-    height: calc(100vh);
-    display: flex;
-    background-size: cover;
-    background-image: url(../../images/000050380016.jpg);
-    background-position: 50% 50%;
+.btn-default {
+    border-color: rgba(24,28,33,0.1);
+    background: rgba(0,0,0,0);
+    color: #4E5155;
 }
 
-.username-settings {
-    margin-bottom: 15px;
-    margin-left: 0;
-    margin-right: 0;
+label.btn {
+    margin-bottom: 0;
 }
 
-.username-settings label {
-    color: black;
+.btn-outline-primary {
+    border-color: #26B4FF;
+    background: transparent;
+    color: #26B4FF;
 }
 
-.DOB-settings {
-    margin-bottom: 15px;
-    margin-left: 0;
-    margin-right: 0;
+.btn {
+    cursor: pointer;
 }
 
-.email-settings {
-    margin-bottom: 15px;
+.text-light {
+    color: #babbbc !important;
 }
 
-.password-settings {
-    margin-bottom: 15px;
+.btn-facebook {
+    border-color: rgba(0,0,0,0);
+    background: #3B5998;
+    color: #fff;
 }
 
-@media screen and (max-width: 600px) {
-    .form-settings {
-        width: 100%;
-        max-width: 350px;
-        padding: 30px;
-        margin: auto;
-        border-radius: 15px;
-        background-color: rgba(247, 255, 255, 0.5)
-    }
-} */
-
-.user-box {
-    width: 110px;
-    margin: auto;
-    margin-bottom: 20px;
-    
+.btn-instagram {
+    border-color: rgba(0,0,0,0);
+    background: #000;
+    color: #fff;
 }
 
-.user-box img {
-    width: 100%;
-    border-radius: 50%;
-	padding: 3px;
-	background: #fff;
-	-webkit-box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.2);
-    -ms-box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.2);
-    box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.2);
+.card {
+    background-clip: padding-box;
+    box-shadow: 0 1px 4px rgba(24,28,33,0.012);
 }
 
-.profile-card-2 .card {
-	position:relative;
+.row-bordered {
+    overflow: hidden;
 }
 
-.profile-card-2 .card .card-body {
-	z-index:1;
-}
-
-.profile-card-2 .card::before {
-    content: "";
+.account-settings-fileinput {
     position: absolute;
-    top: 0px;
-    right: 0px;
-    left: 0px;
-	border-top-left-radius: .25rem;
-    border-top-right-radius: .25rem;
-    height: 112px;
-    background-color: #e6e6e6;
+    visibility: hidden;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}
+.account-settings-links .list-group-item.active {
+    font-weight: bold !important;
+}
+html:not(.dark-style) .account-settings-links .list-group-item.active {
+    background: transparent !important;
+}
+.account-settings-multiselect ~ .select2-container {
+    width: 100% !important;
+}
+.light-style .account-settings-links .list-group-item {
+    padding: 0.85rem 1.5rem;
+    border-color: rgba(24, 28, 33, 0.03) !important;
+}
+.light-style .account-settings-links .list-group-item.active {
+    color: #4e5155 !important;
+}
+.material-style .account-settings-links .list-group-item {
+    padding: 0.85rem 1.5rem;
+    border-color: rgba(24, 28, 33, 0.03) !important;
+}
+.material-style .account-settings-links .list-group-item.active {
+    color: #4e5155 !important;
+}
+.dark-style .account-settings-links .list-group-item {
+    padding: 0.85rem 1.5rem;
+    border-color: rgba(255, 255, 255, 0.03) !important;
+}
+.dark-style .account-settings-links .list-group-item.active {
+    color: #fff !important;
+}
+.light-style .account-settings-links .list-group-item.active {
+    color: #4E5155 !important;
+}
+.light-style .account-settings-links .list-group-item {
+    padding: 0.85rem 1.5rem;
+    border-color: rgba(24,28,33,0.03) !important;
 }
 
-.profile-card-2 .card.profile-primary::before {
-	background-color: #008cff;
-}
-.profile-card-2 .card.profile-success::before {
-	background-color: #15ca20;
-}
-.profile-card-2 .card.profile-danger::before {
-	background-color: #fd3550;
-}
-.profile-card-2 .card.profile-warning::before {
-	background-color: #ff9700;
-}
-.profile-card-2 .user-box {
-	margin-top: 30px;
+.media {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: start;
+    align-items: flex-start;
 }
 
-.profile-card-3 .user-fullimage {
-	position:relative;
-}
-
-.profile-card-3 .user-fullimage .details{
-	position: absolute;
-    bottom: 0;
-    left: 0px;
-	width:100%;
-}
-
-.profile-card-4 .user-box {
-    width: 110px;
-    margin: auto;
-    margin-bottom: 10px;
-    margin-top: 15px;
-}
-
-.profile-card-4 .list-icon {
-    display: table-cell;
-    font-size: 30px;
-    padding-right: 20px;
-    vertical-align: middle;
-    color: #223035;
-}
-
-.profile-card-4 .list-details {
-	display: table-cell;
-	vertical-align: middle;
-	font-weight: 600;
-    color: #223035;
-    font-size: 15px;
-    line-height: 15px;
-}
-
-.profile-card-4 .list-details small{
-	display: table-cell;
-	vertical-align: middle;
-	font-size: 12px;
-	font-weight: 400;
-    color: #808080;
+.media-body {
+    -ms-flex: 1;
+    flex: 1;
 }
 
 .form-group {

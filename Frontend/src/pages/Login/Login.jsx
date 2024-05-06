@@ -26,7 +26,7 @@ export default function Login() {
             if (response.data.status === 'ok') { //if login is successfull
                 navigate("/"); //navigate back to home page
                 dispatch({type: "LOGIN_SUCCESS", payload: response.data});
-            } else if (response.data.status === 'error') { // if login is failed
+            } else if (response.data.status === 'Invalid login') { // if login is failed
                 alert("Invaild username or password"); // Show alert to user
                 dispatch({type: "LOGIN_FAILURE"});
             }

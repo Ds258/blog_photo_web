@@ -10,10 +10,17 @@ export default function Navbar() {
         dispatch({ type: "LOGOUT" });
     }
 
-    useEffect(() => {
-        console.log(user);
-    }, [user]);
+    // useEffect(() => {
+    //     console.log(user);
+    // }, [user]);
 
+    function AvaImg() {
+        if (user.data.profile.profile_picture) {
+            return <img className="userpic" src={user.data.profile.profile_picture} alt="Avatar" />;
+        } else {
+            return <img className="userpic" src="https://res.cloudinary.com/dvi9ihpbc/image/upload/v1714885288/Blog_Photo_Website/Avatar/g2hr4syxruyki3k6glwy.png" alt="Avatar"/>
+        }
+    }
 
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -30,16 +37,16 @@ export default function Navbar() {
                             <a className="nav-link" href="/">Home</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">Blog</a>
+                            <a className="nav-link" href="/#">Blog</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">Photo</a>
+                            <a className="nav-link" href="/#">Photo</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">Posts</a>
+                            <a className="nav-link" href="/#">Posts</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">About</a>
+                            <a className="nav-link" href="/#">About</a>
                         </li>
                     </ul>
                 </div>
@@ -47,12 +54,12 @@ export default function Navbar() {
                     {user ? (
                         <div className="dropdown dropdownUser">
                             <button className="btn buttonUser" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img className="userpic" src={user.data.profile_pic} alt="Avatar" />
+                                <AvaImg/>
                                 <span className="username">{user.data.username}</span>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <Link to="/settings" style={{"textDecoration": "none"}}><li><a class="dropdown-item" href="">Settings</a></li></Link>
-                                <li><a class="dropdown-item" href="" onClick={handleLogout}>{user && "Log out"}</a></li>
+                                <Link to="/settings" style={{"textDecoration": "none"}}><li><a class="dropdown-item" href="/#">Settings</a></li></Link>
+                                <li><a class="dropdown-item" href="/" onClick={handleLogout}>{user && "Log out"}</a></li>
                             </ul>
                         </div>
                     ) : (
