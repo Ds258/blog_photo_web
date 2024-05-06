@@ -42,11 +42,11 @@ export default function Login() {
             <main className="form-signin">
                 <form onSubmit={handleSubmit}>
                     <h1 className="h3 mb-3 fw-normal">Sign in</h1>
-                    <div className="form-floating username">
+                    <div className="form-floating username-signin">
                         <input type="text" className="form-control" id="floatingUsername" placeholder="username" value={username} onChange={(e) => setUsername(e.target.value)} />
                         <label htmlFor="floatingUsername">Username</label>
                     </div>
-                    <div className="form-floating password">
+                    <div className="form-floating password-signin">
                         <input type="password" className="form-control" id="floatingPassword" placeholder="name@example.com" value={password} onChange={(e) => setPassword(e.target.value)}/>
                         <label htmlFor="floatingPassword">Password</label>
                     </div>

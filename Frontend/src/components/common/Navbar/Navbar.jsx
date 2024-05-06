@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import './Navbar.css'
 import { Link } from "react-router-dom";
 import { Context } from "../../../context/Context";
@@ -9,10 +9,6 @@ export default function Navbar() {
     const handleLogout = () => {
         dispatch({ type: "LOGOUT" });
     }
-
-    // useEffect(() => {
-    //     console.log(user);
-    // }, [user]);
 
     function AvaImg() {
         if (user.data.profile.profile_picture) {

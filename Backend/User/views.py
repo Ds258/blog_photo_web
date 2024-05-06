@@ -73,5 +73,5 @@ def Settings(request):
     new_password = request.data.get('new_password', False) 
     email = request.data.get('email', False) 
     dob = request.data.get('DOB', False) 
-    avatar = request.data.get('avatar', False) 
+    avatar = request.data.get('profilePicture', False) 
     phone_number = request.data.get('phone_number', False) 

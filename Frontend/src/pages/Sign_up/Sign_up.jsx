@@ -98,7 +98,7 @@ export default function Signup() {
     const handleReset = () => {
         setStep(1);
         // Clear profilePicture when going back to step 1
-        setProfilePicture(null);
+        // setProfilePicture(null);
     };
 
     return (
@@ -108,15 +108,15 @@ export default function Signup() {
                     <main className="form-signup">
                         <form onSubmit={handleSubmit}>
                             <h1 className="h3 mb-3 fw-normal">Sign up</h1>
-                            <div className="form-floating username">
+                            <div className="form-floating username-signup">
                                 <input type="text" className="form-control" id="floatingUser" placeholder="username" required value={username} onChange={(e) => setUsername(e.target.value)} />
                                 <label htmlFor="floatingUser">Username</label>
                             </div>
-                            <div className="form-floating email">
+                            <div className="form-floating email-signup">
                                 <input type="email" className="form-control" id="floatingEmail" placeholder="name@example.com" required value={email} onChange={(e) => setEmail(e.target.value)} />
                                 <label htmlFor="floatingEmail">Email Address</label>
                             </div>
-                            <div className="form-floating password">
+                            <div className="form-floating password-signup">
                                 <input type="password" className="form-control" id="floatingPassword" placeholder="123456" required value={password} onChange={(e) => setPassword(e.target.value)} />
                                 <label htmlFor="floatingPassword">Password</label>
                             </div>
@@ -148,7 +148,7 @@ export default function Signup() {
                                         ) : (
                                             <div className="default-placeholder rounded-circle" style={{ width: '12rem', height: '12rem' }}>
                                                 <img
-                                                    src="https://www.freepik.com/free-psd/3d-illustration-person-with-glasses_27470335.htm#query=png%20avatars&position=10&from_view=keyword&track=ais&uuid=52ffaccd-259e-459a-b770-80d7ceb15f89"
+                                                    src="https://res.cloudinary.com/dvi9ihpbc/image/upload/v1714885288/Blog_Photo_Website/Avatar/g2hr4syxruyki3k6glwy.png"
                                                     alt="None picture"
                                                     className="rounded-circle"
                                                     style={{ width: '12rem', height: '12rem' }}

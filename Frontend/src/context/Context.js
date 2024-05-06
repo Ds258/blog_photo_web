@@ -1,4 +1,4 @@
-import { useReducer, createContext, useEffect } from "react";
+import React, { useReducer, createContext, useEffect } from "react";
 import Reducer from "./Reducer";
 
 const userItem = localStorage.getItem("user");
@@ -7,7 +7,6 @@ const INITIAL_STATE = {
     isFetching: false,
     error: false,
 };
-
 
 
 export const Context = createContext(INITIAL_STATE);

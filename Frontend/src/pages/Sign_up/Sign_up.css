@@ -21,31 +21,19 @@
     background-position: 50% 50%;
 }
 
-.username {
+.username-signup {
     margin-bottom: 1rem;
-    margin-left: 0;
-    margin-right: 0;
 }
 
-.username label {
+.username-signup label {
     color: black;
 }
 
-.DOB {
-    margin-bottom: 1rem;
-    margin-left: 0;
-    margin-right: 0;
-}
-
-.email {
+.email-signup {
     margin-bottom: 1rem;
 }
 
-.password {
-    margin-bottom: 1rem;
-}
-
-.phone_number {
+.password-signup {
     margin-bottom: 1rem;
 }
 

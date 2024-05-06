@@ -10,7 +10,7 @@ export default function Settings() {
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [DOB, setDOB] = useState('')
-    const [avatar, setAvatar] = useState('');
+    const [profilePicture, setProfilePicture] = useState('');
     const [new_password, setNewPassword] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const { user, dispatch } = useContext(Context);
@@ -24,7 +24,7 @@ export default function Settings() {
             new_password: new_password,
             email: email,
             dob: DOB,
-            avatar: avatar,
+            profilePicture: profilePicture,
             phone_number: phoneNumber
         }
 
@@ -47,9 +47,24 @@ export default function Settings() {
         } else {
             return <img src="https://res.cloudinary.com/dvi9ihpbc/image/upload/v1714885288/Blog_Photo_Website/Avatar/g2hr4syxruyki3k6glwy.png" alt="" class="d-block ui-w-80"/>
         }
-
-        
     }
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+
+        // Check if a file is selected
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onloadend = () => {
+                setProfilePicture(reader.result);
+            };
+
+            // console.log(profilePicture)
+
+            reader.readAsDataURL(file);
+        }
+    };
 
     return (
         <div class="container light-style flex-grow-1 container-p-y">
@@ -72,11 +87,15 @@ export default function Settings() {
                         <div class="tab-content">
                             <div class="tab-pane fade active show" id="account-general">
                                 <div class="card-body media align-items-center">
-                                    <AvaImg/>
+                                    {profilePicture ? (
+                                        <img src="https://res.cloudinary.com/dvi9ihpbc/image/upload/v1714885288/Blog_Photo_Website/Avatar/g2hr4syxruyki3k6glwy.png" alt="" class="d-block ui-w-80"/>
+                                    ) : (
+                                        <img src={user.data.profile.profile_picture} alt="" class="d-block ui-w-80"/>
+                                    )}
                                     <div class="media-body" style={{marginLeft: "2rem"}}>
                                         <label class="btn btn-outline-primary">
                                             Upload new photo
-                                            <input type="file" class="account-settings-fileinput" />
+                                            <input type="file" class="account-settings-fileinput" onChange={handleImageChange}/>
                                         </label> &nbsp;
                                         <button type="button" class="btn btn-outline-dark md-btn-flat">Reset</button>
                                         <div class="small mt-1" style={{color: "gray"}}>Allowed JPG, GIF or PNG. Max size of 800K</div>
