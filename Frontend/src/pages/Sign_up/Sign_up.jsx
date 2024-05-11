@@ -46,14 +46,12 @@ export default function Signup() {
                     xhr.open('POST', CLOUDINARY_URL, false);
                     xhr.send(formData);
                     const imageResponse = JSON.parse(xhr.responseText);
+                    console.log(imageResponse.secure_url);
                     setImageURL(imageResponse.secure_url);
                 } catch (error) {
                     console.log(error);
                 }
-            } else {
-                setImageURL(null);
             }
-            
             // console.log(imageResponse.secure_url);
             
             const data = {
@@ -98,7 +96,7 @@ export default function Signup() {
     const handleReset = () => {
         setStep(1);
         // Clear profilePicture when going back to step 1
-        // setProfilePicture(null);
+        setProfilePicture(null);
     };
 
     return (

@@ -67,11 +67,37 @@ def check_exist(username):
     
 
 @api_view(['POST'])
-def Settings(request):
-    username = request.data.get('username', False)
-    old_password = request.data.get('old_password', False) 
-    new_password = request.data.get('new_password', False) 
-    email = request.data.get('email', False) 
-    dob = request.data.get('DOB', False) 
-    avatar = request.data.get('profilePicture', False) 
-    phone_number = request.data.get('phone_number', False) 
+def Settings(request, id_user):
+    update_account = {}
+    valid_fields = ('username', 'old_password', 'new_password', 'email')
+
+    for field in request.data:
+        if field not in valid_fields:
+            raise ValueError(f"Invalid field in request data: {field}")
+
+        value = request.data.get(field)  # Get the value (handles optional fields)
+        if value is not False:  # Update only if a value is provided
+            update_account[field] = value
+
+    update_profile = {}
+    valid_fields = {'gender', 'dob', 'avatar', 'phone_number'}
+
+    for field in request.data:
+        if field not in valid_fields:
+            raise ValueError(f"Invalid field in request data: {field}")
+
+        value = request.data.get(field)  # Get the value (handles optional fields)
+        if value is not False:  # Update only if a value is provided
+            update_profile[field] = value
+
+    user = User.objects.filter(id=id_user)
+    if user is None:
+        return Response({'status': 'User not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+    if update_account is not None:
+        user.update(**update_account)
+
+    if update_profile is not None:
+        Profile.objects.filter(id=user).update(**update_profile)
+
+    return Response({'status': 'update successfully'}, status=status.HTTP_200_OK)
