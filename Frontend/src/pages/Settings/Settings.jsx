@@ -5,50 +5,56 @@ import axios from 'axios';
 // import { useSelector } from 'react-redux';
 
 export default function Settings() {
-    const { user } = useContext(Context);
+    const { user, dispatch } = useContext(Context);
     const [username, setUsername] = useState(user.data.username);
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState(user.data.email);
     const [DOB, setDOB] = useState(user.data.profile.dob);
-    const [gender, setGender] = useState();
+    const [gender, setGender] = useState(user.data.profile.gender);
     const [profilePicture, setProfilePicture] = useState(user.data.profile.profile_picture);
-    const [imageURL, setImageURL] = useState('');
     const [new_password, setNewPassword] = useState('');
     const [phoneNumber, setPhoneNumber] = useState(user.data.profile.phone_number);
 
+    const [changeImage, setChangeImage] = useState(false);
+
     const handleSubmit = async (event) => {
         event.preventDefault();
+        dispatch({ type: "UPDATE_START" })
 
-        if (profilePicture !== user.data.profile.profile_picture) {
+        console.log(changeImage);
+        let image = null;
+
+        if (changeImage) {
             const formData = new FormData();
             formData.append("file", profilePicture);
             formData.append("upload_preset", "fokolbfy");
             formData.append("folder", "Blog_Photo_Website/Avatar");
             formData.append("api_key", "135497366991663");
-            // Axios.post('https://api.cloudinary.com/v1_1/diih7pze7/upload/', formData, {
-            //     headers: {
-            //         'Content-Type': 'multipart/form-data',
-            //         // Include other headers as needed, such as Authorization
-            //     },
-            // }).then((response) => {
-            //     const image = response.data.secure_url;
-            //     setImageURL(image);
-            //     // console.log(image);
-            // }).catch((error) => {
-            //     console.log(error);
-            // })
-            let CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/diih7pze7/upload/';
-            const xhr = new XMLHttpRequest();
-            try {
-                xhr.open('POST', CLOUDINARY_URL, false);
-                xhr.send(formData);
-                const imageResponse = JSON.parse(xhr.responseText);
-                console.log(imageResponse.secure_url);
-                setImageURL(imageResponse.secure_url);
-            } catch (error) {
+            await axios.post('https://api.cloudinary.com/v1_1/diih7pze7/upload/', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    // Include other headers as needed, such as Authorization
+                },
+            }).then((response) => {
+                image = response.data.secure_url;
+            }).catch((error) => {
                 console.log(error);
-            }
+            })
+            // let CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/diih7pze7/upload/';
+            // const xhr = new XMLHttpRequest();
+            // try {
+            //     xhr.open('POST', CLOUDINARY_URL, false);
+            //     xhr.send(formData);
+            //     const imageResponse = JSON.parse(xhr.responseText);
+            //     console.log(imageResponse.secure_url);
+            //     setImageURL(imageResponse.secure_url);
+            //     console.log(imageURL);
+            // } catch (error) {
+            //     console.log(error);
+            // }
         }
+
+        // console.log(image);
 
         const data = {
             username: username,
@@ -57,21 +63,26 @@ export default function Settings() {
             email: email,
             gender: gender,
             dob: DOB,
-            imageURL: imageURL,
             phone_number: phoneNumber
         }
 
+        if (image !== null) {
+            data.profile_picture = image;
+        }
+
+        // console.log(data);
 
         try {
             const response = await axios.post('http://localhost:8000/user/settings/' + user.data.id, data);
             console.log(response.data);
             if (response.data.status === 'success') {
-                         
-            } else if (response.data.status === 'exist') {
-                alert("Username is already exists")
+                dispatch({ type: "UPDATE_SUCCESS", payload: response.data })
+                window.location.reload();
             }
         } catch (error) {
             console.error('An error occurred while logging in:', error);
+            console.log(error.status)
+            dispatch({ type: "UPDATE_FAILURE" })
         }
     }
 
@@ -87,7 +98,7 @@ export default function Settings() {
             };
 
             // console.log(profilePicture)
-
+            setChangeImage(true);
             reader.readAsDataURL(file);
         }
     };
@@ -169,12 +180,12 @@ export default function Settings() {
 
                                     <div className="form-group">
                                         <label className="form-label">Current password</label>
-                                        <input type="password" className="form-control" />
+                                        <input type="password" className="form-control" onChange={(e) => setPassword(e.target.value)}/>
                                     </div>
 
                                     <div className="form-group">
                                         <label className="form-label">New password</label>
-                                        <input type="password" className="form-control" />
+                                        <input type="password" className="form-control" onChange={(e) => setNewPassword(e.target.value)}/>
                                     </div>
 
                                     <div className="form-group">

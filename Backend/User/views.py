@@ -1,10 +1,11 @@
+from django.shortcuts import get_object_or_404
 from .serializer import ProfileSerializer, UserSerializer
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
 from django.contrib.auth import authenticate, login, logout
 from .models import Profile, User
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password, check_password
 from django.core.exceptions import ObjectDoesNotExist
 
 @api_view(['POST'])
@@ -45,7 +46,7 @@ def Signup(request):
     new_avatar = request.data.get('new_avatar')
 
     try:
-        if check_exist(new_username):
+        if Check_exist(new_username):
             return Response({'status': 'exist'}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             user = User.objects.create(username=new_username, password=new_password, email=new_email)
@@ -58,46 +59,83 @@ def Signup(request):
 
 
 # check if user has already existed
-def check_exist(username):
+def Check_exist(username):
     try:
         user = Profile.objects.get(username=username)
         return True
-    except:
+    except ObjectDoesNotExist:
         return False
     
 
 @api_view(['POST'])
 def Settings(request, id_user):
+    if not request.data:
+        return Response({'status': 'Request error'}, status=status.HTTP_400_BAD_REQUEST)
+
+    new_password = request.data.get('new_password')
+
     update_account = {}
-    valid_fields = ('username', 'old_password', 'new_password', 'email')
+    valid_fields = ('username', 'email')
+    if Check_password(request.data.get('old_password'), new_password, id_user):
+        update_account['password'] = make_password(new_password)
+        # print(update_account['password'])
 
     for field in request.data:
         if field not in valid_fields:
-            raise ValueError(f"Invalid field in request data: {field}")
+            continue
 
         value = request.data.get(field)  # Get the value (handles optional fields)
         if value is not False:  # Update only if a value is provided
             update_account[field] = value
 
     update_profile = {}
-    valid_fields = {'gender', 'dob', 'avatar', 'phone_number'}
+    valid_fields = ('gender', 'dob', 'profile_picture', 'phone_number')
 
     for field in request.data:
         if field not in valid_fields:
-            raise ValueError(f"Invalid field in request data: {field}")
+            continue
 
         value = request.data.get(field)  # Get the value (handles optional fields)
         if value is not False:  # Update only if a value is provided
             update_profile[field] = value
 
-    user = User.objects.filter(id=id_user)
-    if user is None:
-        return Response({'status': 'User not exist'}, status=status.HTTP_404_NOT_FOUND)
+    try:
+        User.objects.filter(id=id_user).update(**update_account)
+    except:
+        return Response({'status': 'Update user error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    user = get_object_or_404(User, id=id_user)
 
-    if update_account is not None:
-        user.update(**update_account)
+    try:
+        profile = Profile.objects.filter(id_user=user).update(**update_profile)
+    except:
+        return Response({'status': 'Update profile error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    if update_profile is not None:
-        Profile.objects.filter(id=user).update(**update_profile)
+    profile = get_object_or_404(Profile, id_user=user)
 
-    return Response({'status': 'update successfully'}, status=status.HTTP_200_OK)
+    data = UserSerializer(user).data
+    data['profile'] = ProfileSerializer(profile).data
+
+    if not data:
+        return Response({'status': 'Serializer error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    return Response({'status': 'success', 'data': data}, status=status.HTTP_200_OK)
+
+
+# Check if old password matches the one in database
+def Check_password(old_password, new_password, id_user):
+    if not old_password or not new_password:
+        return False
+    
+    try:
+        user = User.objects.get(id=id_user)
+    except ObjectDoesNotExist:
+        raise ValueError("User not exist")
+    
+    matches = check_password(old_password, user.password)
+    if matches:
+        return True
+    
+    return False
+    
+    
