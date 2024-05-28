@@ -21,37 +21,44 @@ export default function Settings() {
         event.preventDefault();
         dispatch({ type: "UPDATE_START" })
 
-        console.log(changeImage);
+        console.log(profilePicture);
         let image = null;
 
-        if (changeImage) {
+        if (changeImage && profilePicture !== null) {
             const formData = new FormData();
             formData.append("file", profilePicture);
             formData.append("upload_preset", "fokolbfy");
             formData.append("folder", "Blog_Photo_Website/Avatar");
             formData.append("api_key", "135497366991663");
-            await axios.post('https://api.cloudinary.com/v1_1/diih7pze7/upload/', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    // Include other headers as needed, such as Authorization
-                },
-            }).then((response) => {
-                image = response.data.secure_url;
-            }).catch((error) => {
-                console.log(error);
-            })
-            // let CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/diih7pze7/upload/';
-            // const xhr = new XMLHttpRequest();
-            // try {
-            //     xhr.open('POST', CLOUDINARY_URL, false);
-            //     xhr.send(formData);
-            //     const imageResponse = JSON.parse(xhr.responseText);
-            //     console.log(imageResponse.secure_url);
-            //     setImageURL(imageResponse.secure_url);
-            //     console.log(imageURL);
-            // } catch (error) {
+            // await axios.post('https://api.cloudinary.com/v1_1/dvi9ihpbc/upload/', formData, {
+            //     headers: {
+            //         'Content-Type': 'multipart/form-data',
+            //         // Include other headers as needed, such as Authorization
+            //     },
+            // }).then((response) => {
+            //     image = response.data.secure_url;
+            //     console.log(image);
+            // }).catch((error) => {
             //     console.log(error);
-            // }
+            // })
+            let CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dvi9ihpbc/upload/';
+            const xhr = new XMLHttpRequest();
+            try {
+                await xhr.open('POST', CLOUDINARY_URL, false);
+                xhr.send(formData);
+                const imageResponse = JSON.parse(xhr.responseText);
+                if (xhr.status === 400) {
+                    alert(imageResponse.error.message);
+                    return;
+                } 
+
+                // 
+                console.log(imageResponse);
+                image = imageResponse.secure_url;
+                // console.log(image)
+            } catch (error) {
+                console.log(error);
+            }
         }
 
         // console.log(image);
@@ -63,8 +70,11 @@ export default function Settings() {
             email: email,
             gender: gender,
             dob: DOB,
-            phone_number: phoneNumber
+            phone_number: phoneNumber,
+            
         }
+
+        data.profile_picture = null;
 
         if (image !== null) {
             data.profile_picture = image;
@@ -76,18 +86,27 @@ export default function Settings() {
             const response = await axios.post('http://localhost:8000/user/settings/' + user.data.id, data);
             console.log(response.data);
             if (response.data.status === 'success') {
+                // alert("Update successfully");
                 dispatch({ type: "UPDATE_SUCCESS", payload: response.data })
-                window.location.reload();
+                // window.location.reload();
+            } else if (response.data.status === 'unsuccess') {
+                alert(response.data.message);
+                dispatch({ type: "UPDATE_FAILURE" });
             }
         } catch (error) {
             console.error('An error occurred while logging in:', error);
-            console.log(error.status)
-            dispatch({ type: "UPDATE_FAILURE" })
+            alert("Error");
+            dispatch({ type: "UPDATE_FAILURE" });
         }
     }
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
+
+        if (file.size > 10485760) {
+            alert('File size is too large! Maximum allowed size is 10 MB.');
+            return; // Prevent form submission
+        }
 
         // Check if a file is selected
         if (file) {
@@ -97,10 +116,15 @@ export default function Settings() {
                 setProfilePicture(reader.result);
             };
 
-            // console.log(profilePicture)
+            console.log(profilePicture)
             setChangeImage(true);
             reader.readAsDataURL(file);
         }
+    };
+
+    const handleResetImage = () => {
+        // Clear profilePicture when going back to step 1
+        setProfilePicture(null);
     };
 
     return (
@@ -114,10 +138,6 @@ export default function Settings() {
                         <div className="list-group list-group-flush account-settings-links">
                             <a className="list-group-item list-group-item-action active" data-toggle="list" href="#account-general">General</a>
                             <a className="list-group-item list-group-item-action" data-toggle="list" href="#account-change-password">Change password</a>
-                            {/* <a className="list-group-item list-group-item-action" data-toggle="list" href="#account-info">Info</a>
-                            <a className="list-group-item list-group-item-action" data-toggle="list" href="#account-social-links">Social links</a>
-                            <a className="list-group-item list-group-item-action" data-toggle="list" href="#account-connections">Connections</a> */}
-                            <a className="list-group-item list-group-item-action" data-toggle="list" href="#account-notifications">Notifications</a>
                         </div>
                     </div>
                     <div className="col-md-9">
@@ -134,8 +154,8 @@ export default function Settings() {
                                             Upload new photo
                                             <input type="file" className="account-settings-fileinput" onChange={handleImageChange}/>
                                         </label> &nbsp;
-                                        <button type="button" className="btn btn-outline-dark md-btn-flat">Reset</button>
-                                        <div className="small mt-1" style={{color: "gray"}}>Allowed JPG, GIF or PNG. Max size of 800K</div>
+                                        <button type="button" className="btn btn-outline-dark md-btn-flat" onClick={handleResetImage}>Reset</button>
+                                        <div className="small mt-1" style={{color: "gray"}}>Allowed JPG, GIF or PNG. Max size of 1000K</div>
                                     </div>
                                 </div>
                                 <hr className="border-light m-0" />
@@ -194,75 +214,6 @@ export default function Settings() {
                                     </div>
                                 </div>
                             </div>          
-                            <div className="tab-pane fade" id="account-notifications">
-                                <div className="card-body pb-2">
-                                    <h6 className="mb-4">Activity</h6>
-                                    <div className="form-group">
-                                        <label className="switcher">
-                                            <input type="checkbox" className="switcher-input" checked="" />
-                                            <span className="switcher-indicator">
-                                                <span className="switcher-yes"></span>
-                                                <span className="switcher-no"></span>
-                                            </span>
-                                            <span className="switcher-label">Email me when someone comments on my article</span>
-                                        </label>
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="switcher">
-                                            <input type="checkbox" className="switcher-input" checked="" />
-                                            <span className="switcher-indicator">
-                                                <span className="switcher-yes"></span>
-                                                <span className="switcher-no"></span>
-                                            </span>
-                                            <span className="switcher-label">Email me when someone answers on my forum thread</span>
-                                        </label>
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="switcher">
-                                            <input type="checkbox" className="switcher-input" />
-                                            <span className="switcher-indicator">
-                                                <span className="switcher-yes"></span>
-                                                <span className="switcher-no"></span>
-                                            </span>
-                                            <span className="switcher-label">Email me when someone follows me</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <hr className="border-light m-0" />
-                                <div className="card-body pb-2">
-                                    <h6 className="mb-4">Application</h6>
-                                    <div className="form-group">
-                                        <label className="switcher">
-                                            <input type="checkbox" className="switcher-input" checked="" />
-                                            <span className="switcher-indicator">
-                                                <span className="switcher-yes"></span>
-                                                <span className="switcher-no"></span>
-                                            </span>
-                                            <span className="switcher-label">News and announcements</span>
-                                        </label>
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="switcher">
-                                            <input type="checkbox" className="switcher-input" />
-                                            <span className="switcher-indicator">
-                                                <span className="switcher-yes"></span>
-                                                <span className="switcher-no"></span>
-                                            </span>
-                                            <span className="switcher-label">Weekly product updates</span>
-                                        </label>
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="switcher">
-                                            <input type="checkbox" className="switcher-input" checked="" />
-                                            <span className="switcher-indicator">
-                                                <span className="switcher-yes"></span>
-                                                <span className="switcher-no"></span>
-                                            </span>
-                                            <span className="switcher-label">Weekly blog digest</span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

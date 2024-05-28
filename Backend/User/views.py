@@ -70,15 +70,20 @@ def Check_exist(username):
 @api_view(['POST'])
 def Settings(request, id_user):
     if not request.data:
-        return Response({'status': 'Request error'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'status': 'error', 'message': 'Request error'}, status=status.HTTP_400_BAD_REQUEST)
 
     new_password = request.data.get('new_password')
+    old_password = request.data.get('old_password')
 
     update_account = {}
     valid_fields = ('username', 'email')
-    if Check_password(request.data.get('old_password'), new_password, id_user):
-        update_account['password'] = make_password(new_password)
-        # print(update_account['password'])
+
+    if new_password and old_password: 
+        if Check_password(old_password, new_password, id_user):
+            update_account['password'] = make_password(new_password)
+            # print(update_account['password'])
+        else:
+            return Response({'status': 'unsuccess', 'message': 'Password not match'}, status=status.HTTP_200_OK)
 
     for field in request.data:
         if field not in valid_fields:
@@ -99,17 +104,19 @@ def Settings(request, id_user):
         if value is not False:  # Update only if a value is provided
             update_profile[field] = value
 
+    # Update User's account
     try:
         User.objects.filter(id=id_user).update(**update_account)
     except:
-        return Response({'status': 'Update user error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({'status': 'error', 'message': 'Update user error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
     user = get_object_or_404(User, id=id_user)
 
+    # Update User's profile
     try:
-        profile = Profile.objects.filter(id_user=user).update(**update_profile)
+        Profile.objects.filter(id_user=user).update(**update_profile)
     except:
-        return Response({'status': 'Update profile error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({'status': 'error', 'message': 'Update profile error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     profile = get_object_or_404(Profile, id_user=user)
 
@@ -117,7 +124,7 @@ def Settings(request, id_user):
     data['profile'] = ProfileSerializer(profile).data
 
     if not data:
-        return Response({'status': 'Serializer error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({'status': 'error', 'message': 'Serializer error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     return Response({'status': 'success', 'data': data}, status=status.HTTP_200_OK)
 
