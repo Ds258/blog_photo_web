@@ -2,7 +2,7 @@ from django.utils import timezone
 from django.db import models
 import uuid
 
-from Backend.User.models import User
+from User.models import User
 
 # Create your models here.
 class Blog(models.Model):
@@ -10,7 +10,7 @@ class Blog(models.Model):
     heading = models.TextField(blank=True, null=True)
     content = models.TextField(blank=True, null=True)
     author = models.TextField(blank=True, null=True)
-    id_user = models.ForeignKey(User, on_delete=models.SET_NULL)
+    id_user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True)
 
