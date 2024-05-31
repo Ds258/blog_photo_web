@@ -19,7 +19,13 @@ class IndexView(APIView):
         return Response({'message': 'success', 'data': serial_blog}, status=status.HTTP_200_OK)
 
     def post(self, request):
-        return
+        if not request.data:
+            return Response({'Message': 'Request error'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        heading = request.data.get('heading')
+        content = request.data.get('content')
+        heading_url = request.data.get('heading_url')
+
 
 
 @api_view(['POST'])

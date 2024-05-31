@@ -32,3 +32,13 @@ class Photo(models.Model):
         self.updated_at = timezone.now()
         super().save(*args, **kwargs)
 
+
+class Category(models.Model):
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+    name = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        self.updated_at = timezone.now()
+        super().save(*args, **kwargs)

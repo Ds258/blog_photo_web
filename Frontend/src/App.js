@@ -1,4 +1,5 @@
 import Homepage from './pages/Homepage/Homepage';
+import Blog from './pages/Blog/Blog';
 import Login from './pages/Login/Login';
 import React, { useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -17,6 +18,7 @@ function App() {
         <Route path="/signin" element={user ? <Homepage /> : <Login />} />
         <Route path="/signup" element={user ? <Homepage /> : <Signup />} />
         <Route path="/settings" element={user ? <Settings/> : <Homepage />}/>
+        <Route path="/blog" element={<Blog />}/>
       </Routes>
     </Router>    
   );
