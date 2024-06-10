@@ -36,10 +36,7 @@ export default function Navbar() {
                             <a className="nav-link" href="/blog">Blog</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/#">Photo</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="/#">Posts</a>
+                            <a className="nav-link" href="/post_blog">Posts</a>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="/#">About</a>

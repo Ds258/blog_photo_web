@@ -7,6 +7,7 @@ import Signup from './pages/Sign_up/Sign_up';
 import { Context } from './context/Context';
 import Settings from './pages/Settings/Settings';
 import Navbar from './components/common/Navbar/Navbar';
+import CreateBlog from './pages/CreateBlog/CreateBlog';
 
 function App() {
   const { user } = useContext(Context);
@@ -19,6 +20,8 @@ function App() {
         <Route path="/signup" element={user ? <Homepage /> : <Signup />} />
         <Route path="/settings" element={user ? <Settings/> : <Homepage />}/>
         <Route path="/blog" element={<Blog />}/>
+        <Route path="/post_blog" element={user ? <CreateBlog /> : <Login />}/>
+
       </Routes>
     </Router>    
   );
