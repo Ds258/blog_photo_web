@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useDropzone } from 'react-dropzone';
 import './CreateBlog.css';
 import JoditEditor, { Jodit } from 'jodit-react';
+import axios from 'axios';
+import { Context } from "../../context/Context";
 
 export default function CreateBlog() {
+    const { user } = useContext(Context);
     const [acceptedFiles, setAcceptedFiles] = useState([]);
     const [preview, setPreview] = useState(null);
+    const [title, setTitle] = useState();
+    const [content, setContent] = useState();
+    const [contentImage, setContentImage] = useState([]);
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         accept: 'image/*', // Allow only image uploads
@@ -55,7 +61,7 @@ export default function CreateBlog() {
         input.onchange = async function () {
 
             const imageFile = input.files[0];
-
+            console.log(imageFile);
             if (!imageFile) {
                 return;
             }
@@ -67,7 +73,7 @@ export default function CreateBlog() {
             const imageInfo = await FileUpload(imageFile);;
 
             insertImage(editor, imageInfo.url);
-
+            setContentImage([...contentImage, imageInfo.url]);
         };
     }
     
@@ -85,7 +91,7 @@ export default function CreateBlog() {
         let formData = new FormData();
         formData.append('file', file);
         formData.append("upload_preset", "fokolbfy");
-        formData.append("folder", "Blog_Photo_Website/Avatar");
+        formData.append("folder", "Blog_Photo_Website/Blog");
         formData.append("api_key", "135497366991663");
     
         await fetch(`https://api.cloudinary.com/v1_1/dvi9ihpbc/upload/`, {
@@ -98,8 +104,47 @@ export default function CreateBlog() {
         .catch((error) => {
             console.error('Error:', error);
         });
-    
+        
         return result;
+    }
+
+
+    const handlePost = async (event) => {
+        if (preview == null || acceptedFiles == null) {
+            alert("Heading image must not be empty");
+            return
+        }
+
+        console.log(acceptedFiles)
+        const headImage = await FileUpload(acceptedFiles[0]);
+        
+        if (title == null) {
+            alert("Please fill the Title");
+            return
+        }
+
+        const data = {
+            id_user: user.data.id,
+            username: user.data.username,
+            title: title,
+            headImage: headImage.url,
+            content: content,
+            contentImage: contentImage,
+        }
+
+        try {
+            const response = await axios.post('http://localhost:8000/blog/post/', data);
+            console.log(response.data);
+            if (response.data.status === 'success') {
+                alert("Upload successfully");
+                // window.location.reload();
+            } else if (response.data.status === 'unsuccess') {
+                alert(response.data.message);
+            }
+        } catch (error) {
+            console.error('An error occurred while changing settings:', error);
+            alert("Error");
+        }
     }
 
     return (
@@ -120,14 +165,20 @@ export default function CreateBlog() {
                     <br/>
                     <div>
                         <div className="mb-3">                        
-                            <textarea id="title" class="form-control form-control-lg" rows={3} placeholder="Title" maxLength={200}/> 
+                            <textarea id="title" class="form-control form-control-lg" rows={3} placeholder="Title" maxLength={200} onChange={(e) => setTitle(e.target.value)}/> 
                         </div>
                         <div>
                             <JoditEditor
                                 config={editorConfig}
+                                onBlur={newContent => setContent(newContent)}
                             />
                         </div>   
                     </div>
+                    <br/>
+                    <div>
+                        <button type="button" class="btn btn-primary" onClick={handlePost}>Post your blog</button>
+                    </div>
+                    <br/>
                 </div>
 
                 <div className="col-md-4">

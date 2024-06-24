@@ -21,7 +21,7 @@ export default function Settings() {
         event.preventDefault();
         dispatch({ type: "UPDATE_START" })
 
-        console.log(profilePicture);
+        // console.log(profilePicture);
         let image = null;
 
         if (changeImage && profilePicture !== null) {
@@ -94,7 +94,7 @@ export default function Settings() {
                 dispatch({ type: "UPDATE_FAILURE" });
             }
         } catch (error) {
-            console.error('An error occurred while logging in:', error);
+            console.error('An error occurred while changing settings:', error);
             alert("Error");
             dispatch({ type: "UPDATE_FAILURE" });
         }
@@ -116,7 +116,7 @@ export default function Settings() {
                 setProfilePicture(reader.result);
             };
 
-            console.log(profilePicture)
+            // console.log(profilePicture)
             setChangeImage(true);
             reader.readAsDataURL(file);
         }

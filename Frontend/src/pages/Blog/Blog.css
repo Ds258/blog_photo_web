@@ -1,0 +1,18 @@
+.head-img {
+    width: 100%;
+    object-fit: cover;
+}
+
+.line-clamp {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4; /* Limit to 4 lines */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis (...) at the end */
+    height: calc(1.5em * 4); /* Adjust based on your line height */
+    line-height: 1.5em; /* Ensure line height matches the calculation */
+}
+
+.content-text {
+    text-align: left;
+}

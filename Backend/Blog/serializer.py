@@ -22,7 +22,7 @@ class BlogSerializer(serializers.ModelSerializer):
             return None  # Handle cases where no related Photo objects exist
 
     def get_photos(self, obj):
-        photos = obj.photo_set.all()  # Retrieve all related photos
+        photos = obj.photo_set.filter(heading_img=False)  # Retrieve all related photos
         return PhotoSerializer(photos, many=True).data
 
     class Meta:

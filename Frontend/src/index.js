@@ -3,13 +3,8 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import axios from 'axios';
-// import 'jquery/dist/jquery.min.js'
-// import "bootstrap/dist/js/bootstrap.min.js";
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/js/bootstrap.bundle';
 import { ContextProvider } from './context/Context';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'bootstrap/dist/js/bootstrap.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
