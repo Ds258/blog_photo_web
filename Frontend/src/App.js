@@ -8,22 +8,25 @@ import { Context } from './context/Context';
 import Settings from './pages/Settings/Settings';
 import Navbar from './components/common/Navbar/Navbar';
 import CreateBlog from './pages/CreateBlog/CreateBlog';
+import ReadBlog from './pages/ReadBlog/ReadBlog';
+import Footer from "./components/common/Footer/Footer";
 
 function App() {
   const { user } = useContext(Context);
   return (
     <Router>
-      <Navbar/>
+      <Navbar />
       <Routes>
         <Route key="home" exact path="/" element={<Homepage />} />
         <Route path="/signin" element={user ? <Homepage /> : <Login />} />
         <Route path="/signup" element={user ? <Homepage /> : <Signup />} />
-        <Route path="/settings" element={user ? <Settings/> : <Homepage />}/>
-        <Route path="/blog" element={<Blog />}/>
-        <Route path="/post_blog" element={user ? <CreateBlog /> : <Login />}/>
-
+        <Route path="/settings" element={user ? <Settings /> : <Homepage />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/post_blog" element={user ? <CreateBlog /> : <Login />} />
+        <Route path="/blog/:title" element={<ReadBlog />} />
       </Routes>
-    </Router>    
+      <Footer />
+    </Router>
   );
 }
 

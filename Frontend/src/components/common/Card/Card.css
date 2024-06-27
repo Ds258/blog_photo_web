@@ -1,5 +1,6 @@
-image {
-    height: 10rem;
+.head-img {
+    width: 100%;
+    object-fit: cover;
 }
 
 .line-clamp-3 {
@@ -8,4 +9,6 @@ image {
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+    height: calc(1.5em * 4); /* Adjust based on your line height */
+    line-height: 1.5em; /* Ensure line height matches the calculation */
 }

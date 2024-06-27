@@ -8,7 +8,7 @@ from .models import User
 
 # Create your views here.
 class IndexView(APIView):
-    def get(self, request):
+    def get(self, request): # get all blogs for Blog page
         try: 
             all_blog = Blog.objects.all()
         except Blog.DoesNotExist:
@@ -18,7 +18,7 @@ class IndexView(APIView):
 
         return Response({'message': 'success', 'data': serial_blog}, status=status.HTTP_200_OK)
 
-    def post(self, request):
+    def post(self, request): # post a blog
         if not request.data:
             return Response({'Message': 'Request error'}, status=status.HTTP_400_BAD_REQUEST)
         
@@ -51,8 +51,20 @@ class IndexView(APIView):
                 return Response({'Message': e}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             
         return Response({'status': 'success'}, status=status.HTTP_201_CREATED)
-        
-        
+
+
+@api_view(['GET'])
+def GetBlogView(request, id_blog):
+    try:    
+        view_blog = Blog.objects.get(id=id_blog)
+    except Blog.DoesNotExist:
+        return Response({'message': 'Blog not exists'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    serial_blog = BlogSerializer(view_blog).data
+
+    return Response({'message': 'success', 'data': serial_blog}, status=status.HTTP_200_OK)
+
+
 @api_view(['POST'])
 def EditBlogView(request):
     return

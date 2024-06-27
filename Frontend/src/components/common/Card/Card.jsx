@@ -1,14 +1,40 @@
 import React from "react";
 import './Card.css';
+import { useNavigate } from "react-router-dom";
 
-export default function Card(){
+export default function Card({ id_blog, heading_url, title, content }) {
+    const navigate = useNavigate();
+
+    const redirectBlog = () => {
+        const titleSlug = slugify(title);        
+        navigate(`/blog/${titleSlug}`, {state: {id_blog}});
+    }
+
+    const slugify = (title) => {
+        return title
+            .toLowerCase()
+            .normalize('NFD') // Normalize to decomposed form
+            .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
+            .replace(/[đĐ]/g, 'd') // Replace đ with d
+            .replace(/[^a-z0-9 -]/g, '') // Remove invalid characters
+            .replace(/\s+/g, '-') // Collapse whitespace and replace by -
+            .replace(/-+/g, '-'); // Collapse dashes
+    }
+
     return (
-        <div className="card mb-3">
-            <img src="https://wiki.warthunder.com/images/thumb/8/8c/GarageImage_T-55AMD-1.jpg/800px-GarageImage_T-55AMD-1.jpg" className="card-img-top image" alt="Thumbnail"/>
-            <div className="card-body">
-                <h5 className="card-title">Card title</h5>
-                <p className="card-text line-clamp-3">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <p className="card-text">Last updated 3 mins ago</p>
+        <div class="card">
+            <div class="bg-image hover-overlay">
+                <img src={heading_url} class="head-img" alt="" width={300} height={300} />
+                <a href="#!">
+                    <div class="mask" style={{ backgroundColor: "rgba(251, 251, 251, 0.15)" }}></div>
+                </a>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{title}</h5>
+                <p class="content-text line-clamp-3">
+                    {content}
+                </p>
+                <a href="" class="btn btn-primary" onClick={redirectBlog}>Read</a>
             </div>
         </div>
     )
