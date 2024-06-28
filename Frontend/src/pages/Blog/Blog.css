@@ -16,3 +16,8 @@
 .content-text {
     text-align: left;
 }
+
+.full-screen {
+    width: 100%;
+    min-height: 100vh;
+}

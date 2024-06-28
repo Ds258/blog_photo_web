@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Blog.css";
 import Card from "../../components/common/Card/Card";
+import Loading from "../../components/common/Loading/Loading";
 
 export default function Blog() {
     const [posts, setPosts] = useState([]);
@@ -12,7 +13,7 @@ export default function Blog() {
     const fetchData = async () => {
         try {
             const response = await fetch('http://localhost:8000/blog/index/');
-            const data = await response.json();     
+            const data = await response.json();
             // setPosts(data.data);
             const parsedPosts = data.data.map(post => ({
                 ...post,
@@ -30,6 +31,12 @@ export default function Blog() {
         return doc.body.textContent.trim();
     };
 
+    if (posts.length < 1) {
+        return (
+            <Loading/>
+        )
+    }
+
     return (
         <main class="my-5">
             <div class="container">
@@ -38,8 +45,8 @@ export default function Blog() {
                     <div class="row">
                         {posts.map((post, index) => (
                             <div class="col-lg-4 col-md-12 mb-4">
-                                <Card 
-                                    id_blog = {post.id}
+                                <Card
+                                    id_blog={post.id}
                                     heading_url={post.heading_url}
                                     title={post.heading}
                                     content={post.content}

@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from 'react-router-dom';
 import parse from 'html-react-parser';
+import moment from 'moment';
+import './ReadBlog.css';
+import Loading from "../../components/common/Loading/Loading";
 
 export default function ReadBlog() {
     const location = useLocation();
@@ -24,7 +27,9 @@ export default function ReadBlog() {
     }, [id_blog])
 
     if (!blogContent) {
-        return <div>Loading...</div>;
+        return (
+            <Loading/>
+        )
     }
 
     return (
@@ -34,7 +39,7 @@ export default function ReadBlog() {
                     <article>
                         <header className="mb-4">
                             <h1 className="fw-bolder mb-1">{blogContent.heading}</h1>
-                            <div className="text-muted fst-italic mb-2">Posted on January 1, 2023 by Start Bootstrap</div>
+                            <div className="text-muted fst-italic mb-2">Posted on {moment(blogContent.created_at).format('MMMM Do YYYY')}</div>
                             <a className="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
                             <a className="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
                         </header>
