@@ -21,8 +21,6 @@ class IndexView(APIView):
     def post(self, request): # post a blog
         if not request.data:
             return Response({'Message': 'Request error'}, status=status.HTTP_400_BAD_REQUEST)
-        
-        print(request.data)
 
         id_user = request.data.get('id_user')
         username = request.data.get('username')
@@ -61,6 +59,26 @@ def GetBlogView(request, id_blog):
         return Response({'message': 'Blog not exists'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     serial_blog = BlogSerializer(view_blog).data
+
+    return Response({'message': 'success', 'data': serial_blog}, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def UserBlogView(request, id_user):
+    if not id_user:
+        return Response({'message': 'id_user not found'}, status=status.HTTP_404_NOT_FOUND)
+    
+    try:    
+        user = User.objects.get(id=id_user)
+    except User.DoesNotExist:
+        return Response({'message': 'User not exists'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    try:    
+        view_blog = Blog.objects.filter(id_user=user)
+    except Blog.DoesNotExist:
+        return Response({'message': 'Blog not exists'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    serial_blog = BlogSerializer(view_blog, many=True).data
 
     return Response({'message': 'success', 'data': serial_blog}, status=status.HTTP_200_OK)
 

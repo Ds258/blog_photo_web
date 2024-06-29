@@ -10,6 +10,7 @@ import Navbar from './components/common/Navbar/Navbar';
 import CreateBlog from './pages/CreateBlog/CreateBlog';
 import ReadBlog from './pages/ReadBlog/ReadBlog';
 import Footer from "./components/common/Footer/Footer";
+import EditBlog from "./pages/EditBlog/EditBlog";
 
 function App() {
   const { user } = useContext(Context);
@@ -24,6 +25,7 @@ function App() {
         <Route path="/blog" element={<Blog />} />
         <Route path="/post_blog" element={user ? <CreateBlog /> : <Login />} />
         <Route path="/blog/:title" element={<ReadBlog />} />
+        <Route path="/edit_blog/:title" element={<EditBlog />} />
       </Routes>
       <Footer />
     </Router>

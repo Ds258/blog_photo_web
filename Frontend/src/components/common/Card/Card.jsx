@@ -34,7 +34,7 @@ export default function Card({ id_blog, heading_url, title, content }) {
                 <p class="content-text line-clamp-3">
                     {content}
                 </p>
-                <a href="" class="btn btn-primary" onClick={redirectBlog}>Read</a>
+                <button class="btn btn-primary" onClick={redirectBlog}>Read</button>
             </div>
         </div>
     )

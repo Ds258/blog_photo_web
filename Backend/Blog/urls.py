@@ -10,4 +10,6 @@ urlpatterns = [
     path('index/', views.IndexView.as_view(), name='IndexView'), # Create blog
     path('post/', views.IndexView.as_view(), name='PostBlogView'), # Upload blog
     path('view/<int:id_blog>/', views.GetBlogView, name='GetBlogView'), # Upload blog
+    path('user_blog/<int:id_user>/', views.UserBlogView, name='UserBlogView'), # User's blogs
+    path('edit/', views.EditBlogView, name='EditBlogView'), # User's blogs
 ]

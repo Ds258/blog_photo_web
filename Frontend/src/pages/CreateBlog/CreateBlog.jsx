@@ -1,9 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDropzone } from 'react-dropzone';
 import './CreateBlog.css';
 import JoditEditor, { Jodit } from 'jodit-react';
 import axios from 'axios';
 import { Context } from "../../context/Context";
+import Loading from "../../components/common/Loading/Loading";
 
 export default function CreateBlog() {
     const { user } = useContext(Context);
@@ -12,6 +14,7 @@ export default function CreateBlog() {
     const [title, setTitle] = useState();
     const [content, setContent] = useState();
     const [contentImage, setContentImage] = useState([]);
+    const [posts, setPosts] = useState([]);
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         accept: 'image/*', // Allow only image uploads
@@ -43,14 +46,14 @@ export default function CreateBlog() {
         extraButtons: ["uploadImage"]
     };
 
-    
+
     Jodit.defaultOptions.controls.uploadImage = {
         name: 'Upload image to Cloudinary',
         exec: (async (editor) => {
             await imageUpload(editor);
         })
     };
-    
+
 
     const imageUpload = (editor) => {
         const input = document.createElement('input');
@@ -76,35 +79,35 @@ export default function CreateBlog() {
             setContentImage([...contentImage, imageInfo.url]);
         };
     }
-    
+
     //this method insert the image inside the editor after the upload is done.
     const insertImage = (editor, url) => {
         const image = editor.selection.j.createInside.element('img');
         image.setAttribute('src', url);
         editor.selection.insertNode(image);
     }
-    
+
     // this method send the image to cloudinary
     const FileUpload = async (file) => {
         let result = null;
-    
+
         let formData = new FormData();
         formData.append('file', file);
         formData.append("upload_preset", "fokolbfy");
         formData.append("folder", "Blog_Photo_Website/Blog");
         formData.append("api_key", "135497366991663");
-    
+
         await fetch(`https://api.cloudinary.com/v1_1/dvi9ihpbc/upload/`, {
             method: 'POST',
             body: formData
         }).then((response) => response.json())
-        .then((data) => {
-            result = data;
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-        
+            .then((data) => {
+                result = data;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
         return result;
     }
 
@@ -117,7 +120,7 @@ export default function CreateBlog() {
 
         console.log(acceptedFiles)
         const headImage = await FileUpload(acceptedFiles[0]);
-        
+
         if (title == null) {
             alert("Please fill the Title");
             return
@@ -147,42 +150,125 @@ export default function CreateBlog() {
         }
     }
 
+    const parseHTML = (html) => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        return doc.body.textContent.trim();
+    };
+
+    const navigate = useNavigate();
+
+    const redirectRead = (id_blog, title) => {
+        const titleSlug = slugify(title);        
+        navigate(`/blog/${titleSlug}`, {state: {id_blog}});
+    }
+
+    const redirectEdit = (id_blog, title) => {
+        const titleSlug = slugify(title);        
+        navigate(`/edit_blog/${titleSlug}`, {state: {id_blog}});
+    }
+
+    const slugify = (title) => {
+        return title
+            .toLowerCase()
+            .normalize('NFD') // Normalize to decomposed form
+            .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
+            .replace(/[đĐ]/g, 'd') // Replace đ with d
+            .replace(/[^a-z0-9 -]/g, '') // Remove invalid characters
+            .replace(/\s+/g, '-') // Collapse whitespace and replace by -
+            .replace(/-+/g, '-'); // Collapse dashes
+    }
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('http://localhost:8000/blog/user_blog/' + user.data.id);
+                const data = await response.json();
+                // setPosts(data.data);
+                const parsedPosts = data.data.map(post => ({
+                    ...post,
+                    content: parseHTML(post.content) // Parse the HTML content
+                }));
+                setPosts(parsedPosts);
+            } catch (err) {
+                console.error(err.message);
+            }
+        };
+
+        fetchData(); // Call the function inside useEffect
+    }, [user.data.id]);
+
     return (
-        <div className="container" style={{marginTop: '2rem'}}>
-            <h1 className="text-center mb-5">Create your blog</h1>
-            <div className="row">
-                <div className="col-md-8">
-                    <div {...getRootProps({ className: `dropzone ${isDragActive ? 'active' : ''}` })}>
-                        <input {...getInputProps()} />
-                        {isDragActive ? 
-                            <p>Drop the files here ...</p> :                 
-                            (preview ? 
-                                <img src={preview} alt="Preview" className="preview-image" /> : 
-                                <p>Drag 'n' drop some files here, or click to select files</p>
-                            )
-                        }            
-                    </div>
-                    <br/>
+        <div className="container" style={{ marginTop: '2rem', minHeight: '50vh' }}>
+            <ul className="nav nav-tabs">
+                <li className="nav-item"><a className="nav-link active" data-bs-toggle="tab" href="#create">Create new Blog</a></li>
+                <li className="nav-item"><a className="nav-link" data-bs-toggle="tab" href="#edit">Your Blogs</a></li>
+            </ul>
+            <div className="tab-content">
+                <div id="create" className="tab-pane fade show active">
+                    <h1 className="text-center py-3">Create your blog</h1>
                     <div>
-                        <div className="mb-3">                        
-                            <textarea id="title" class="form-control form-control-lg" rows={3} placeholder="Title" maxLength={200} onChange={(e) => setTitle(e.target.value)}/> 
+                        <div {...getRootProps({ className: `dropzone ${isDragActive ? 'active' : ''}` })}>
+                            <input {...getInputProps()} />
+                            {isDragActive ?
+                                <p>Drop the files here ...</p> :
+                                (preview ?
+                                    <img src={preview} alt="Preview" className="preview-image" /> :
+                                    <p>Drag 'n' drop some files here, or click to select files</p>
+                                )
+                            }
                         </div>
+                        <br />
                         <div>
-                            <JoditEditor
-                                config={editorConfig}
-                                onBlur={newContent => setContent(newContent)}
-                            />
-                        </div>   
+                            <div className="mb-3">
+                                <textarea id="title" className="form-control form-control-lg" rows={3} placeholder="Title" maxLength={200} onChange={(e) => setTitle(e.target.value)} />
+                            </div>
+                            <div>
+                                <JoditEditor
+                                    config={editorConfig}
+                                    onBlur={newContent => setContent(newContent)}
+                                />
+                            </div>
+                        </div>
+                        <br />
+                        <div>
+                            <button type="button" class="btn btn-primary" onClick={handlePost}>Post your blog</button>
+                        </div>
+                        <br />
                     </div>
-                    <br/>
-                    <div>
-                        <button type="button" class="btn btn-primary" onClick={handlePost}>Post your blog</button>
-                    </div>
-                    <br/>
                 </div>
-
-                <div className="col-md-4">
-
+                <div id="edit" class="tab-pane fade">
+                    <h1 className="text-center py-3">Your Blogs</h1>
+                    <div className="row">
+                        {posts ? (posts.map((post, index) => (
+                            <div className="col-lg-6 col-md-12">
+                                <div class="card mb-3">
+                                    <div class="row g-0">
+                                        <div class="col-md-4">
+                                            <div class="img-container">
+                                                <img src={post.heading_url} class="rounded-start head-img" alt={post.heading} height={254}/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{post.heading}</h5>
+                                                <p class="card-text line-clamp-3">{post.content}</p>
+                                                <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                                                <div className="d-flex">
+                                                    <button className="btn btn-primary me-2" onClick={() => redirectRead(post.id, post.heading)}>Read</button> {/* Add "()" to prevent auto trigger */}
+                                                    <button className="btn btn-warning me-2" onClick={() => redirectEdit(post.id, post.heading)}>Edit</button>
+                                                    <button className="btn btn-danger">Delete</button>
+                                                </div>       
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))) : (
+                            <Loading/>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
