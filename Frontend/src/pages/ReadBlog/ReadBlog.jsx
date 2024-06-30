@@ -43,7 +43,7 @@ export default function ReadBlog() {
                             <a className="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
                             <a className="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
                         </header>
-                        <figure className="mb-4"><img className="img-fluid rounded" src={blogContent.heading_url} alt="..." /></figure>
+                        <figure className="mb-4"><img className="heading-img rounded" src={blogContent.heading_url} alt={blogContent.heading}/></figure>
                         <section className="mb-5">
                             {parse(blogContent.content)}
                         </section>

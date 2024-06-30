@@ -84,8 +84,32 @@ def UserBlogView(request, id_user):
 
 
 @api_view(['POST'])
-def EditBlogView(request):
-    return
+def EditBlogView(request, id_blog):
+    if not request.data:
+        return Response({'message': 'Request error'}, status=status.HTTP_400_BAD_REQUEST)
+    print(request.data)
+    update_content = {}
+    valid_fields = ("heading", "content")
+    for field in request.data:
+        if field in valid_fields:
+            update_content[field] = request.data.get(field)
+        
+    try:
+        update_blog = Blog.objects.filter(id=id_blog)
+        update_blog.update(**update_content)
+    except Exception as e:
+        return Response({'status': 'unsuccess', 'message': e}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)    
+
+    if "headImage" in request.data:
+        head_img = request.data.get("headImage")
+        print(head_img)
+        try:
+            Photo.objects.filter(id_blog__in=update_blog, heading_img=True).update(url=head_img)
+        except Exception as e:
+            print(e)
+            # return Response({'status': 'unsuccess', 'message': e}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    return Response({'status': 'success'}, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])

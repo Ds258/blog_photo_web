@@ -16,6 +16,8 @@ export default function CreateBlog() {
     const [contentImage, setContentImage] = useState([]);
     const [posts, setPosts] = useState([]);
 
+    const navigate = useNavigate();
+
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         accept: 'image/*', // Allow only image uploads
         onDrop: acceptedFiles => {
@@ -140,7 +142,7 @@ export default function CreateBlog() {
             console.log(response.data);
             if (response.data.status === 'success') {
                 alert("Upload successfully");
-                // window.location.reload();
+                navigate("/blog/");
             } else if (response.data.status === 'unsuccess') {
                 alert(response.data.message);
             }
@@ -155,8 +157,6 @@ export default function CreateBlog() {
         const doc = parser.parseFromString(html, 'text/html');
         return doc.body.textContent.trim();
     };
-
-    const navigate = useNavigate();
 
     const redirectRead = (id_blog, title) => {
         const titleSlug = slugify(title);        

@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
+import { useNavigate } from "react-router-dom";
 import './EditBlog.css';
 import JoditEditor, { Jodit } from 'jodit-react';
 import axios from 'axios';
@@ -17,6 +18,8 @@ export default function CreateBlog() {
     const location = useLocation();
     const { id_blog } = location.state || {};
     const [post, setPost] = useState([]);
+
+    const navigate = useNavigate();
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         accept: 'image/*', // Allow only image uploads
@@ -114,35 +117,29 @@ export default function CreateBlog() {
     }
 
 
-    const handlePost = async (event) => {
-        if (preview == null || acceptedFiles == null) {
-            alert("Heading image must not be empty");
-            return
+    const handleEdit = async (event) => {
+        const data = {}
+  
+        if (acceptedFiles.length > 0) {
+            const headImage = await FileUpload(acceptedFiles[0]);
+            data["headImage"] = headImage.url;
+        }
+        
+
+        if (title != null) {
+            data["heading"] = title;
         }
 
-        console.log(acceptedFiles)
-        const headImage = await FileUpload(acceptedFiles[0]);
-
-        if (title == null) {
-            alert("Please fill the Title");
-            return
-        }
-
-        const data = {
-            id_user: user.data.id,
-            username: user.data.username,
-            title: title,
-            headImage: headImage.url,
-            content: content,
-            contentImage: contentImage,
+        if (content != null) {
+            data["content"] = content;
         }
 
         try {
-            const response = await axios.post('http://localhost:8000/blog/edit/', data);
+            const response = await axios.post('http://localhost:8000/blog/edit/' + id_blog, data);
             console.log(response.data);
             if (response.data.status === 'success') {
-                alert("Upload successfully");
-                // window.location.reload();
+                alert("Edit successfully");
+                navigate("/post_blog/")
             } else if (response.data.status === 'unsuccess') {
                 alert(response.data.message);
             }
@@ -184,7 +181,7 @@ export default function CreateBlog() {
                 <br />
                 <div>
                     <div className="mb-3">
-                        <textarea id="title" value={post.heading} className="form-control form-control-lg" rows={3} placeholder="Title" maxLength={200} onChange={(e) => setTitle(e.target.value)} />
+                        <textarea id="title" className="form-control form-control-lg" rows={3} placeholder="Title" maxLength={200} defaultValue={post.heading} onChange={(e) => setTitle(e.target.value)}></textarea>
                     </div>
                     <div>
                         <JoditEditor
@@ -196,7 +193,7 @@ export default function CreateBlog() {
                 </div>
                 <br />
                 <div>
-                    <button type="button" class="btn btn-primary" onClick={handlePost}>Post your blog</button>
+                    <button type="button" class="btn btn-primary" onClick={handleEdit}>Post your blog</button>
                 </div>
                 <br />
             </div>
