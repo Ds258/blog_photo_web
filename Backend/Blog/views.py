@@ -102,7 +102,6 @@ def EditBlogView(request, id_blog):
 
     if "headImage" in request.data:
         head_img = request.data.get("headImage")
-        print(head_img)
         try:
             Photo.objects.filter(id_blog__in=update_blog, heading_img=True).update(url=head_img)
         except Exception as e:
@@ -113,5 +112,14 @@ def EditBlogView(request, id_blog):
 
 
 @api_view(['POST'])
-def DeleteBlogView(request):
-    return
+def DeleteBlogView(request, id_blog):
+    if not id_blog:
+        return Response({'message': 'id_blog not found'}, status=status.HTTP_404_NOT_FOUND)
+    
+    try:
+        blog = Blog.objects.get(id=id_blog)
+        blog.delete()
+    except Exception as e:
+        return Response({'status': 'unsuccess', 'message': e}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)    
+
+    return Response({'status': 'success'}, status=status.HTTP_200_OK) 

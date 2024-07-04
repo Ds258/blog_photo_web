@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDropzone } from 'react-dropzone';
 import './CreateBlog.css';
@@ -15,6 +15,7 @@ export default function CreateBlog() {
     const [content, setContent] = useState();
     const [contentImage, setContentImage] = useState([]);
     const [posts, setPosts] = useState([]);
+    const editor = useRef(null);
 
     const navigate = useNavigate();
 
@@ -44,8 +45,10 @@ export default function CreateBlog() {
         uploader: {
             insertImageAsBase64URI: true
         },
-        height: 500,
-        extraButtons: ["uploadImage"]
+        extraButtons: ["uploadImage"],
+        events: {
+            beforePaste: (event) => handlePaste(event, editor.current)
+        }
     };
 
 
@@ -56,6 +59,28 @@ export default function CreateBlog() {
         })
     };
 
+    const handlePaste = async (event, editor) => {
+        const clipboardData = event.clipboardData;
+        const items = clipboardData.items;
+    
+        for (let i = 0; i < items.length; i++) {
+            const item = items[i];
+    
+            if (item.kind === 'file' && item.type.startsWith('image/')) {
+                const file = item.getAsFile();
+    
+                if (file) {
+                    event.preventDefault(); // Prevent the default paste behavior
+    
+                    const imageUrl = await imageUpload(file);
+    
+                    if (imageUrl) {
+                        editor.selection.insertHTML(`<img src="${imageUrl}" alt="Uploaded Image"/>`);
+                    }
+                }
+            }
+        }
+    };
 
     const imageUpload = (editor) => {
         const input = document.createElement('input');
@@ -168,6 +193,18 @@ export default function CreateBlog() {
         navigate(`/edit_blog/${titleSlug}`, {state: {id_blog}});
     }
 
+    const deleteBlog = async(id_blog) => {
+        try {
+            const response = await axios.post('http://localhost:8000/blog/delete/' + id_blog);
+            if (response.data.status === "success") {
+                alert("Delete successfully");
+                window.location.reload();
+            } 
+        } catch (err) {
+            console.error(err.message);
+        }
+    }
+
     const slugify = (title) => {
         return title
             .toLowerCase()
@@ -258,7 +295,7 @@ export default function CreateBlog() {
                                                 <div className="d-flex">
                                                     <button className="btn btn-primary me-2" onClick={() => redirectRead(post.id, post.heading)}>Read</button> {/* Add "()" to prevent auto trigger */}
                                                     <button className="btn btn-warning me-2" onClick={() => redirectEdit(post.id, post.heading)}>Edit</button>
-                                                    <button className="btn btn-danger">Delete</button>
+                                                    <button className="btn btn-danger" onClick={() => deleteBlog(post.id)}>Delete</button>
                                                 </div>       
                                             </div>
                                         </div>

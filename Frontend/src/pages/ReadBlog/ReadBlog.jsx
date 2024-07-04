@@ -24,12 +24,16 @@ export default function ReadBlog() {
 
             fetchData();
         }
+        
     }, [id_blog])
+
 
     if (!blogContent) {
         return (
             <Loading/>
         )
+    } else {
+        document.title = blogContent.heading;
     }
 
     return (
