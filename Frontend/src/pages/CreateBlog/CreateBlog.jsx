@@ -6,6 +6,8 @@ import JoditEditor, { Jodit } from 'jodit-react';
 import axios from 'axios';
 import { Context } from "../../context/Context";
 import Loading from "../../components/common/Loading/Loading";
+import { CheckPicker } from 'rsuite';
+
 
 export default function CreateBlog() {
     const { user } = useContext(Context);
@@ -236,6 +238,10 @@ export default function CreateBlog() {
         fetchData(); // Call the function inside useEffect
     }, [user.data.id]);
 
+    const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
+        item => ({ label: item, value: item })
+      );
+
     return (
         <div className="container" style={{ marginTop: '2rem', minHeight: '50vh' }}>
             <ul className="nav nav-tabs">
@@ -258,16 +264,13 @@ export default function CreateBlog() {
                         </div>
                         <br />
                         <div>
-                            <div className="mb-3">
+                            <div className="">
                                 <textarea id="title" className="form-control form-control-lg" rows={3} placeholder="Title" maxLength={200} onChange={(e) => setTitle(e.target.value)} />
                             </div>
                             <div className="py-3">
-                                <select className="selectpicker" multiple title="Choose one of the following...">
-                                    <option>Mustard</option>
-                                    <option>Ketchup</option>
-                                    <option>Relish</option>
-                                </select>
-
+                                <h4>Category</h4>
+                                <br/>
+                                <CheckPicker data={data} block />
                             </div>
                             <div>
                                 <JoditEditor

@@ -15,6 +15,8 @@ class Category(models.Model):
         self.updated_at = timezone.now()
         super().save(*args, **kwargs)
 
+    def __str__(self) -> str:
+        return self.name
 
 class Blog(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
@@ -29,6 +31,9 @@ class Blog(models.Model):
     def save(self, *args, **kwargs):
         self.updated_at = timezone.now()
         super().save(*args, **kwargs)
+        
+    def __str__(self) -> str:
+        return self.heading
 
 
 class Photo(models.Model):
