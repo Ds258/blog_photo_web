@@ -10,7 +10,7 @@ from .models import User
 class IndexView(APIView):
     def get(self, request): # get all blogs for Blog page
         try: 
-            all_blog = Blog.objects.all()
+            all_blog = Blog.GetAllBlog()
         except Blog.DoesNotExist:
             return Response({'message': 'Get blogs field'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
