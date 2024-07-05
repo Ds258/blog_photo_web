@@ -62,18 +62,18 @@ export default function CreateBlog() {
     const handlePaste = async (event, editor) => {
         const clipboardData = event.clipboardData;
         const items = clipboardData.items;
-    
+
         for (let i = 0; i < items.length; i++) {
             const item = items[i];
-    
+
             if (item.kind === 'file' && item.type.startsWith('image/')) {
                 const file = item.getAsFile();
-    
+
                 if (file) {
                     event.preventDefault(); // Prevent the default paste behavior
-    
+
                     const imageUrl = await imageUpload(file);
-    
+
                     if (imageUrl) {
                         editor.selection.insertHTML(`<img src="${imageUrl}" alt="Uploaded Image"/>`);
                     }
@@ -184,22 +184,22 @@ export default function CreateBlog() {
     };
 
     const redirectRead = (id_blog, title) => {
-        const titleSlug = slugify(title);        
-        navigate(`/blog/${titleSlug}`, {state: {id_blog}});
+        const titleSlug = slugify(title);
+        navigate(`/blog/${titleSlug}`, { state: { id_blog } });
     }
 
     const redirectEdit = (id_blog, title) => {
-        const titleSlug = slugify(title);        
-        navigate(`/edit_blog/${titleSlug}`, {state: {id_blog}});
+        const titleSlug = slugify(title);
+        navigate(`/edit_blog/${titleSlug}`, { state: { id_blog } });
     }
 
-    const deleteBlog = async(id_blog) => {
+    const deleteBlog = async (id_blog) => {
         try {
             const response = await axios.post('http://localhost:8000/blog/delete/' + id_blog);
             if (response.data.status === "success") {
                 alert("Delete successfully");
                 window.location.reload();
-            } 
+            }
         } catch (err) {
             console.error(err.message);
         }
@@ -261,6 +261,14 @@ export default function CreateBlog() {
                             <div className="mb-3">
                                 <textarea id="title" className="form-control form-control-lg" rows={3} placeholder="Title" maxLength={200} onChange={(e) => setTitle(e.target.value)} />
                             </div>
+                            <div className="py-3">
+                                <select className="selectpicker" multiple title="Choose one of the following...">
+                                    <option>Mustard</option>
+                                    <option>Ketchup</option>
+                                    <option>Relish</option>
+                                </select>
+
+                            </div>
                             <div>
                                 <JoditEditor
                                     config={editorConfig}
@@ -284,7 +292,7 @@ export default function CreateBlog() {
                                     <div class="row g-0">
                                         <div class="col-md-4">
                                             <div class="img-container">
-                                                <img src={post.heading_url} class="rounded-start head-img" alt={post.heading} height={254}/>
+                                                <img src={post.heading_url} class="rounded-start head-img" alt={post.heading} height={254} />
                                             </div>
                                         </div>
                                         <div class="col-md-8">
@@ -296,14 +304,14 @@ export default function CreateBlog() {
                                                     <button className="btn btn-primary me-2" onClick={() => redirectRead(post.id, post.heading)}>Read</button> {/* Add "()" to prevent auto trigger */}
                                                     <button className="btn btn-warning me-2" onClick={() => redirectEdit(post.id, post.heading)}>Edit</button>
                                                     <button className="btn btn-danger" onClick={() => deleteBlog(post.id)}>Delete</button>
-                                                </div>       
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         ))) : (
-                            <Loading/>
+                            <Loading />
                         )}
                     </div>
                 </div>

@@ -47,7 +47,6 @@ export default function CreateBlog() {
         uploader: {
             insertImageAsBase64URI: true
         },
-        height: 500,
         extraButtons: ["uploadImage"]
     };
 
@@ -193,7 +192,7 @@ export default function CreateBlog() {
                 </div>
                 <br />
                 <div>
-                    <button type="button" class="btn btn-primary" onClick={handleEdit}>Post your blog</button>
+                    <button type="button" class="btn btn-primary" onClick={handleEdit}>Save</button>
                 </div>
                 <br />
             </div>

@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.0",
     "bootstrap": "^5.3.3",
+    "bootstrap-select": "^1.13.18",
     "dropzone": "^6.0.0-beta.2",
     "html-react-parser": "^5.1.10",
     "jodit-react": "^4.1.2",

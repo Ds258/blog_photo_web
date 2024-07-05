@@ -1,0 +1,4 @@
+Backend - Django
+Frontend - Reactjs
+- Bootstrap 
+- React Suite
