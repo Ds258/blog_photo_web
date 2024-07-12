@@ -15,7 +15,7 @@ export default function ReadBlog() {
         if (id_blog) {
             const fetchData = async () => {
                 try {
-                    const response = await fetch(`http://localhost:8000/blog/view/${id_blog}`)
+                    const response = await fetch(`http://localhost:8000/blog/view/${id_blog}/`)
                     const data = await response.json();
                     setBlogContent(data.data);
                 } catch (err) {

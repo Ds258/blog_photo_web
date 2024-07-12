@@ -17,6 +17,8 @@ export default function CreateBlog() {
     const [content, setContent] = useState();
     const [contentImage, setContentImage] = useState([]);
     const [posts, setPosts] = useState([]);
+    const [category, setCategory] = useState([]);
+    const [chooseCate, setChooseCate] = useState();
     const editor = useRef(null);
 
     const navigate = useNavigate();
@@ -155,11 +157,18 @@ export default function CreateBlog() {
             return
         }
 
+        if (category.length < 1) {
+            alert("Please choose at least one cateogry");
+            return
+        }
+
+
         const data = {
             id_user: user.data.id,
             username: user.data.username,
             title: title,
             headImage: headImage.url,
+            category: chooseCate,
             content: content,
             contentImage: contentImage,
         }
@@ -235,12 +244,26 @@ export default function CreateBlog() {
             }
         };
 
-        fetchData(); // Call the function inside useEffect
-    }, [user.data.id]);
+        const fetchCategory = async () => {
+            try {
+                const response = await fetch('http://localhost:8000/blog/category/');
+                const data = await response.json();
+                // setPosts(data.data);
+                const transformedData = data.data.map(category => ({
+                    value: category.id,  // or category.value, depending on your data structure
+                    label: category.name  // or category.label, depending on your data structure
+                }));
+        
+                setCategory(transformedData);
+                console.log(transformedData);
+            } catch (err) {
+                console.error(err.message);
+            }
+        }
 
-    const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
-        item => ({ label: item, value: item })
-      );
+        fetchData(); // Call the function inside useEffect
+        fetchCategory();
+    }, [user.data.id]);
 
     return (
         <div className="container" style={{ marginTop: '2rem', minHeight: '50vh' }}>
@@ -270,8 +293,9 @@ export default function CreateBlog() {
                             <div className="py-3">
                                 <h4>Category</h4>
                                 <br/>
-                                <CheckPicker data={data} block />
+                                <CheckPicker data={category} block onChange={value => setChooseCate(value)}/>
                             </div>
+                            {chooseCate}
                             <div>
                                 <JoditEditor
                                     config={editorConfig}

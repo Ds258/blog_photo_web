@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
-from Blog.serializer import BlogSerializer
-from Blog.models import Blog, Photo
+from Blog.serializer import BlogSerializer, CategorySerializer
+from Blog.models import Blog, Photo, Category
 from rest_framework.response import Response
 from rest_framework import status
 from .models import User
@@ -25,6 +25,7 @@ class IndexView(APIView):
         id_user = request.data.get('id_user')
         username = request.data.get('username')
         heading = request.data.get('title')
+        category = request.data.get('category')
         content = request.data.get('content')
         heading_url = request.data.get('headImage')
         content_image = request.data.get('contentImage')
@@ -34,12 +35,16 @@ class IndexView(APIView):
         except User.DoesNotExist:
             return Response({'Message': 'User not found'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        blog = Blog.objects.create(heading=heading, content=content, author=username, id_user=user)
-        if not blog:
+        try:
+            blog = Blog.objects.create(heading=heading, content=content, author=username, id_user=user)
+        except Exception as e:
+            print(e)
             return Response({'Message': 'Create object Blog error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
-        head_image = Photo.objects.create(alt_image=heading, url=heading_url, heading_img=True, id_blog=blog)
-        if not head_image:
+        try:
+            head_image = Photo.objects.create(alt_image=heading, url=heading_url, heading_img=True, id_blog=blog)
+        except Exception as e:
+            print(e)
             return Response({'Message': 'Create object Head Image error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
         for img in content_image:
@@ -49,6 +54,18 @@ class IndexView(APIView):
                 return Response({'Message': e}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             
         return Response({'status': 'success'}, status=status.HTTP_201_CREATED)
+
+
+@api_view(['GET'])
+def GetCategoryView(request):
+    try:
+        all_category = Category.objects.all()
+    except Exception as e:
+        print(e)
+        return Response({'message': 'Cannot get categories'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    serial_category = CategorySerializer(all_category, many=True).data
+    return Response({'message': 'success', 'data': serial_category}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
