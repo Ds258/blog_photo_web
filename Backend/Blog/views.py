@@ -37,6 +37,8 @@ class IndexView(APIView):
 
         try:
             blog = Blog.objects.create(heading=heading, content=content, author=username, id_user=user)
+            cate = Category.objects.filter(id__in=category)
+            blog.id_category.add(*cate)
         except Exception as e:
             print(e)
             return Response({'Message': 'Create object Blog error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -76,7 +78,8 @@ def GetBlogView(request, id_blog):
         return Response({'message': 'Blog not exists'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     serial_blog = BlogSerializer(view_blog).data
-
+    # print(serial_blog)
+    
     return Response({'message': 'success', 'data': serial_blog}, status=status.HTTP_200_OK)
 
 

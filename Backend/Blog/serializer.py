@@ -9,6 +9,7 @@ class PhotoSerializer(serializers.ModelSerializer):
 class BlogSerializer(serializers.ModelSerializer):
     heading_url = serializers.SerializerMethodField()
     photos = serializers.SerializerMethodField()
+    categories = serializers.SerializerMethodField()
 
     def get_heading_url(self, obj):
         try:
@@ -25,9 +26,13 @@ class BlogSerializer(serializers.ModelSerializer):
         photos = obj.photo_set.filter(heading_img=False)  # Retrieve all related photos
         return PhotoSerializer(photos, many=True).data
 
+    def get_categories(self, obj):
+        categories = obj.id_category.values_list("name", flat=True)
+        return list(categories)
+    
     class Meta:
         model = Blog
-        fields = ['id', 'heading', 'content', 'author', 'heading_url', 'photos', 'created_at']
+        fields = ['id', 'heading', 'content', 'author', 'heading_url', 'categories', 'photos', 'created_at']
 
 
 class CategorySerializer(serializers.ModelSerializer):

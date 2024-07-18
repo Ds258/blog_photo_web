@@ -11,7 +11,7 @@ from Blog.serializer import BlogSerializer
 @api_view(['GET'])
 def SliderBlogView(request):
     now = timezone.now()
-    three_days_ago = now - timedelta(days=3)
+    three_days_ago = now - timedelta(days=30)
     
     # Get the IDs of blogs created within the last 3 days
     recent_blog_ids = Blog.objects.filter(created_at__gte=three_days_ago).values_list('id', flat=True)

@@ -6,7 +6,7 @@ import './EditBlog.css';
 import JoditEditor, { Jodit } from 'jodit-react';
 import axios from 'axios';
 import { Context } from "../../context/Context";
-import Loading from "../../components/common/Loading/Loading";
+import { CheckPicker } from 'rsuite';
 
 export default function CreateBlog() {
     const { user } = useContext(Context);
@@ -18,6 +18,8 @@ export default function CreateBlog() {
     const location = useLocation();
     const { id_blog } = location.state || {};
     const [post, setPost] = useState([]);
+    const [category, setCategory] = useState([]);
+    const [chooseCate, setChooseCate] = useState();
 
     const navigate = useNavigate();
 
@@ -134,7 +136,7 @@ export default function CreateBlog() {
         }
 
         try {
-            const response = await axios.post('http://localhost:8000/blog/edit/' + id_blog, data);
+            const response = await axios.post('http://localhost:8000/blog/edit/' + id_blog + "/", data);
             console.log(response.data);
             if (response.data.status === 'success') {
                 alert("Edit successfully");
@@ -151,15 +153,33 @@ export default function CreateBlog() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:8000/blog/view/' + id_blog);
+                const response = await fetch('http://localhost:8000/blog/view/' + id_blog + "/");
                 const data = await response.json();
                 setPost(data.data);
             } catch (err) {
                 console.error(err.message);
             }
         };
+        
+        const fetchCategory = async () => {
+            try {
+                const response = await fetch('http://localhost:8000/blog/category/');
+                const data = await response.json();
+                // setPosts(data.data);
+                const transformedData = data.data.map(category => ({
+                    value: category.id,  // or category.value, depending on your data structure
+                    label: category.name  // or category.label, depending on your data structure
+                }));
+        
+                setCategory(transformedData);
+                console.log(transformedData);
+            } catch (err) {
+                console.error(err.message);
+            }
+        }
 
-        fetchData(); // Call the function inside useEffect
+        fetchData();
+        fetchCategory(); // Call the function inside useEffect
     }, [id_blog]);
 
     return (
@@ -179,8 +199,13 @@ export default function CreateBlog() {
                 </div>
                 <br />
                 <div>
-                    <div className="mb-3">
+                    <div className="">
                         <textarea id="title" className="form-control form-control-lg" rows={3} placeholder="Title" maxLength={200} defaultValue={post.heading} onChange={(e) => setTitle(e.target.value)}></textarea>
+                    </div>
+                    <div className="py-3">
+                        <h4>Category</h4>
+                        <br/>
+                        <CheckPicker data={category} block value={chooseCate} onChange={setChooseCate}/>
                     </div>
                     <div>
                         <JoditEditor

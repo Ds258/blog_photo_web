@@ -144,24 +144,23 @@ export default function CreateBlog() {
 
 
     const handlePost = async (event) => {
+        if (chooseCate.length < 1) {
+            alert("Please choose at least one cateogry");
+            return
+        } 
+        
         if (preview == null || acceptedFiles == null) {
             alert("Heading image must not be empty");
             return
         }
 
-        console.log(acceptedFiles)
+        // console.log(acceptedFiles)
         const headImage = await FileUpload(acceptedFiles[0]);
 
         if (title == null) {
             alert("Please fill the Title");
             return
         }
-
-        if (category.length < 1) {
-            alert("Please choose at least one cateogry");
-            return
-        }
-
 
         const data = {
             id_user: user.data.id,
@@ -174,8 +173,12 @@ export default function CreateBlog() {
         }
 
         try {
-            const response = await axios.post('http://localhost:8000/blog/post/', data);
-            console.log(response.data);
+            const response = await axios.post('http://localhost:8000/blog/post/', data, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            // console.log(response.data);
             if (response.data.status === 'success') {
                 alert("Upload successfully");
                 navigate("/blog/");
@@ -183,7 +186,7 @@ export default function CreateBlog() {
                 alert(response.data.message);
             }
         } catch (error) {
-            console.error('An error occurred while changing settings:', error);
+            console.error('An error occurred while creating a blog:', error);
             alert("Error");
         }
     }
@@ -231,7 +234,7 @@ export default function CreateBlog() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:8000/blog/user_blog/' + user.data.id);
+                const response = await fetch('http://localhost:8000/blog/user_blog/' + user.data.id + "/");
                 const data = await response.json();
                 // setPosts(data.data);
                 const parsedPosts = data.data.map(post => ({
@@ -293,9 +296,8 @@ export default function CreateBlog() {
                             <div className="py-3">
                                 <h4>Category</h4>
                                 <br/>
-                                <CheckPicker data={category} block onChange={value => setChooseCate(value)}/>
+                                <CheckPicker data={category} block value={chooseCate} onChange={setChooseCate}/>
                             </div>
-                            {chooseCate}
                             <div>
                                 <JoditEditor
                                     config={editorConfig}
