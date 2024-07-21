@@ -46,7 +46,7 @@ export default function ReadBlog() {
                             <h1 className="fw-bolder mb-1">{blogContent.heading}</h1>
                             <div className="text-muted fst-italic mb-2">Posted on {moment(blogContent.created_at).format('MMMM Do YYYY')}</div>
                             {blogContent.categories.map((category, index) => (
-                                <a className="badge bg-secondary text-decoration-none link-light mr-1" href="#!">{category}</a>
+                                <a className="badge bg-secondary text-decoration-none link-light mr-1" href="#!">{category.name}</a>
                             ))}
                         </header>
                         <figure className="mb-4"><img className="heading-img rounded" src={blogContent.heading_url} alt={blogContent.heading}/></figure>

@@ -135,6 +135,10 @@ export default function CreateBlog() {
             data["content"] = content;
         }
 
+        if (chooseCate != null) {
+            data["category"] = chooseCate;
+        }
+
         try {
             const response = await axios.post('http://localhost:8000/blog/edit/' + id_blog + "/", data);
             console.log(response.data);
@@ -156,6 +160,8 @@ export default function CreateBlog() {
                 const response = await fetch('http://localhost:8000/blog/view/' + id_blog + "/");
                 const data = await response.json();
                 setPost(data.data);
+                const selectedCategories = data.data.categories.map(category => category.id); // or category.value
+                setChooseCate(selectedCategories);
             } catch (err) {
                 console.error(err.message);
             }
@@ -205,13 +211,13 @@ export default function CreateBlog() {
                     <div className="py-3">
                         <h4>Category</h4>
                         <br/>
-                        <CheckPicker data={category} block value={chooseCate} onChange={setChooseCate}/>
+                        <CheckPicker data={category} defaultValue={chooseCate} block value={chooseCate} onChange={setChooseCate}/>
                     </div>
                     <div>
                         <JoditEditor
                             config={editorConfig}
                             value={post.content}
-                            onBlur={newContent => setContent(newContent)}
+                            onChange={newContent => setContent(newContent)}
                         />
                     </div>
                 </div>

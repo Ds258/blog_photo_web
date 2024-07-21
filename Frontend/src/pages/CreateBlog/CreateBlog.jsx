@@ -258,7 +258,7 @@ export default function CreateBlog() {
                 }));
         
                 setCategory(transformedData);
-                console.log(transformedData);
+                // console.log(transformedData);
             } catch (err) {
                 console.error(err.message);
             }
@@ -329,6 +329,12 @@ export default function CreateBlog() {
                                                 <h5 class="card-title">{post.heading}</h5>
                                                 <p class="card-text line-clamp-3">{post.content}</p>
                                                 <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                                                <div className="py-2">
+                                                    {post.categories.map((category, index) => (
+                                                        <a className="badge bg-secondary text-decoration-none link-light" href="#!">{category.name}</a>
+                                                    ))}
+                                                </div>
+                                                
                                                 <div className="d-flex">
                                                     <button className="btn btn-primary me-2" onClick={() => redirectRead(post.id, post.heading)}>Read</button> {/* Add "()" to prevent auto trigger */}
                                                     <button className="btn btn-warning me-2" onClick={() => redirectEdit(post.id, post.heading)}>Edit</button>

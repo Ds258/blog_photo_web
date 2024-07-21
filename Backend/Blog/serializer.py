@@ -27,8 +27,8 @@ class BlogSerializer(serializers.ModelSerializer):
         return PhotoSerializer(photos, many=True).data
 
     def get_categories(self, obj):
-        categories = obj.id_category.values_list("name", flat=True)
-        return list(categories)
+        categories = obj.id_category
+        return CategorySerializer(categories, many=True).data
     
     class Meta:
         model = Blog

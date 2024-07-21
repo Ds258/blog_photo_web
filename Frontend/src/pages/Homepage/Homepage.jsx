@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Homepage.css";
 import Loading from "../../components/common/Loading/Loading";
+import Card from "../../components/common/Card/Card";
 
 export default function Homepage() {
     const [sliders, setSliders] = useState([]);
     const navigate = useNavigate();
+    const [posts, setPosts] = useState([]);
 
     useEffect(() => {
         const blogSlider = async () => {
@@ -22,7 +24,23 @@ export default function Homepage() {
             }
         }
 
+        const fetchData = async () => {
+            try {
+                const response = await fetch('http://localhost:8000/blog/index/');
+                const data = await response.json();
+                // setPosts(data.data);
+                const parsedPosts = data.data.map(post => ({
+                    ...post,
+                    content: parseHTML(post.content) // Parse the HTML content
+                }));
+                setPosts(parsedPosts);
+            } catch (err) {
+                console.error(err.message);
+            }
+        };
+
         blogSlider();
+        fetchData();
     }, [])
 
     const parseHTML = (html) => {
@@ -85,9 +103,40 @@ export default function Homepage() {
                 <div className="py-3 d-flex justify-content-center">
                     <h2>Discover your world</h2>
                 </div>
-                <div>
-                    
-                </div>
+                <main>
+                    <div className="container">
+                        <section className="text-center">
+                            <div className="row">
+                                {posts.map((post, index) => (
+                                    <div className="col-lg-4 col-md-12 mb-4">
+                                        <Card
+                                            id_blog={post.id}
+                                            heading_url={post.heading_url}
+                                            title={post.heading}
+                                            content={post.content}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+
+                        <nav className="my-4" aria-label="...">
+                            <ul className="pagination pagination-circle justify-content-center">
+                                <li className="page-item">
+                                    <a className="page-link" href="#!" tabindex="-1" aria-disabled="true">Previous</a>
+                                </li>
+                                <li className="page-item"><a class="page-link" href="#!">1</a></li>
+                                <li className="page-item active" aria-current="page">
+                                    <a className="page-link" href="#!">2 <span class="sr-only"></span></a>
+                                </li>
+                                <li className="page-item"><a class="page-link" href="#!">3</a></li>
+                                <li className="page-item">
+                                    <a className="page-link" href="#!">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </main>
             </div>
         </div>
     )

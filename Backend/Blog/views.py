@@ -107,25 +107,33 @@ def UserBlogView(request, id_user):
 def EditBlogView(request, id_blog):
     if not request.data:
         return Response({'message': 'Request error'}, status=status.HTTP_400_BAD_REQUEST)
-    print(request.data)
+    # print(request.data)
     update_content = {}
-    valid_fields = ("heading", "content")
+    valid_fields = ("heading", "content", "headImage")
     for field in request.data:
-        if field in valid_fields:
+        if field in valid_fields and request.data.get(field) is not None:
             update_content[field] = request.data.get(field)
-        
+    
     try:
         update_blog = Blog.objects.filter(id=id_blog)
-        update_blog.update(**update_content)
+        if update_content is not None:
+            update_blog.update(**update_content)
+        
+        if request.data.get("category") is not None:
+            category = request.data.get("category")
+            cate = Category.objects.filter(id__in=category)
+            # update_blog.id_category.clear()
+            blog = Blog.objects.get(id=id_blog)
+            blog.id_category.set(cate)
     except Exception as e:
-        return Response({'status': 'unsuccess', 'message': e}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)    
+        return Response({'status': 'unsuccess', 'message': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)    
 
-    if "headImage" in request.data:
-        head_img = request.data.get("headImage")
-        try:
-            Photo.objects.filter(id_blog__in=update_blog, heading_img=True).update(url=head_img)
-        except Exception as e:
-            print(e)
+    # if "headImage" in request.data:
+    #     head_img = request.data.get("headImage")
+    #     try:
+    #         Photo.objects.filter(id_blog__in=update_blog, heading_img=True).update(url=head_img)
+    #     except Exception as e:
+    #         print(e)
             # return Response({'status': 'unsuccess', 'message': e}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
     return Response({'status': 'success'}, status=status.HTTP_200_OK)
