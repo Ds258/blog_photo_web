@@ -4,7 +4,6 @@ import parse from 'html-react-parser';
 import moment from 'moment';
 import './ReadBlog.css';
 import Loading from "../../components/common/Loading/Loading";
-import axios from "axios";
 
 export default function ReadBlog() {
     const location = useLocation();
@@ -50,7 +49,7 @@ export default function ReadBlog() {
                             ))}
                         </header>
                         <figure className="mb-4"><img className="heading-img rounded" src={blogContent.heading_url} alt={blogContent.heading}/></figure>
-                        <section className="mb-5">
+                        <section className="mb-5 imageSize">
                             {parse(blogContent.content)}
                         </section>
                         <footer className="d-flex justify-content-end">

@@ -45,6 +45,7 @@ export default function CreateBlog() {
         showXPathInStatusbar: false,
         askBeforePasteHTML: true,
         askBeforePasteFromWord: true,
+        disablePlugins: 'image, file, video, print',
         //defaultActionOnPaste: "insert_clear_html",
         uploader: {
             insertImageAsBase64URI: true
@@ -144,9 +145,9 @@ export default function CreateBlog() {
             console.log(response.data);
             if (response.data.status === 'success') {
                 alert("Edit successfully");
-                navigate("/post_blog/")
-            } else if (response.data.status === 'unsuccess') {
-                alert(response.data.message);
+                window.location.reload();
+            // } else if (response.data.status === 'unsuccess') {
+            //     alert(response.data.message);
             }
         } catch (error) {
             console.error('An error occurred while changing settings:', error);

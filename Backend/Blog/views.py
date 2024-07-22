@@ -126,15 +126,8 @@ def EditBlogView(request, id_blog):
             blog = Blog.objects.get(id=id_blog)
             blog.id_category.set(cate)
     except Exception as e:
-        return Response({'status': 'unsuccess', 'message': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)    
-
-    # if "headImage" in request.data:
-    #     head_img = request.data.get("headImage")
-    #     try:
-    #         Photo.objects.filter(id_blog__in=update_blog, heading_img=True).update(url=head_img)
-    #     except Exception as e:
-    #         print(e)
-            # return Response({'status': 'unsuccess', 'message': e}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        print(e)
+        return Response({'status': 'unsuccess'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)    
     
     return Response({'status': 'success'}, status=status.HTTP_200_OK)
 
@@ -148,6 +141,7 @@ def DeleteBlogView(request, id_blog):
         blog = Blog.objects.get(id=id_blog)
         blog.delete()
     except Exception as e:
-        return Response({'status': 'unsuccess', 'message': e}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)    
+        print(e)
+        return Response({'status': 'unsuccess'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)    
 
     return Response({'status': 'success'}, status=status.HTTP_200_OK) 

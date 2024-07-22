@@ -8,7 +8,6 @@ import { Context } from "../../context/Context";
 import Loading from "../../components/common/Loading/Loading";
 import { CheckPicker } from 'rsuite';
 
-
 export default function CreateBlog() {
     const { user } = useContext(Context);
     const [acceptedFiles, setAcceptedFiles] = useState([]);
@@ -45,46 +44,49 @@ export default function CreateBlog() {
         showXPathInStatusbar: false,
         askBeforePasteHTML: true,
         askBeforePasteFromWord: true,
-        //defaultActionOnPaste: "insert_clear_html",
+        disablePlugins: 'image, file, video, print',
+        //defaultActionOnPaste: "insert_clear_html"
+        imageDefaultWidth: 300,
         uploader: {
             insertImageAsBase64URI: true
         },
         extraButtons: ["uploadImage"],
-        events: {
-            beforePaste: (event) => handlePaste(event, editor.current)
-        }
+        // events: {
+        //     beforePaste: (event) => handlePaste(event, editor.current)
+        // }
     };
 
 
     Jodit.defaultOptions.controls.uploadImage = {
         name: 'Upload image to Cloudinary',
+        icon: '/icons8-image-90.png',
         exec: (async (editor) => {
             await imageUpload(editor);
         })
     };
 
-    const handlePaste = async (event, editor) => {
-        const clipboardData = event.clipboardData;
-        const items = clipboardData.items;
+    // const handlePaste = async (event, editor) => {
+    //     const clipboardData = event.clipboardData;
+    //     const items = clipboardData.items;
 
-        for (let i = 0; i < items.length; i++) {
-            const item = items[i];
+    //     for (let i = 0; i < items.length; i++) {
+    //         const item = items[i];
 
-            if (item.kind === 'file' && item.type.startsWith('image/')) {
-                const file = item.getAsFile();
+    //         if (item.kind === 'file' && item.type.startsWith('image/')) {
+    //             const file = item.getAsFile();
 
-                if (file) {
-                    event.preventDefault(); // Prevent the default paste behavior
+    //             if (file) {
+    //                 event.preventDefault(); // Prevent the default paste behavior
 
-                    const imageUrl = await imageUpload(file);
+    //                 const imageUrl = await imageUpload(file);
 
-                    if (imageUrl) {
-                        editor.selection.insertHTML(`<img src="${imageUrl}" alt="Uploaded Image"/>`);
-                    }
-                }
-            }
-        }
-    };
+    //                 if (imageUrl) {
+    //                     editor.selection.insertHTML(`<img src="${imageUrl}" alt="Uploaded Image"/>`);
+    //                 }
+    //             }
+    //         }
+    //     }
+    // };
 
     const imageUpload = (editor) => {
         const input = document.createElement('input');
@@ -113,9 +115,11 @@ export default function CreateBlog() {
 
     //this method insert the image inside the editor after the upload is done.
     const insertImage = (editor, url) => {
-        const image = editor.selection.j.createInside.element('img');
-        image.setAttribute('src', url);
-        editor.selection.insertNode(image);
+        // const image = editor.selection.j.createInside.element('img');
+        // image.setAttribute('src', url);
+        // editor.selection.insertNode(image);
+        const imgTag = `<img src="${url}" />`; // Adjust the width and height as needed
+        editor.selection.insertHTML(imgTag);
     }
 
     // this method send the image to cloudinary
