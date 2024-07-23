@@ -18,7 +18,6 @@ export default function CreateBlog() {
     const [posts, setPosts] = useState([]);
     const [category, setCategory] = useState([]);
     const [chooseCate, setChooseCate] = useState();
-    const editor = useRef(null);
 
     const navigate = useNavigate();
 
@@ -51,42 +50,20 @@ export default function CreateBlog() {
             insertImageAsBase64URI: true
         },
         extraButtons: ["uploadImage"],
-        // events: {
-        //     beforePaste: (event) => handlePaste(event, editor.current)
-        // }
+        style: {
+            fontFamily: 'Arial', 
+            fontSize: 16
+        }
     };
 
 
     Jodit.defaultOptions.controls.uploadImage = {
         name: 'Upload image to Cloudinary',
-        icon: '/icons8-image-90.png',
+        iconURL: 'https://res.cloudinary.com/dvi9ihpbc/image/upload/v1721711281/Blog_Photo_Website/Logo/qkoa3xa7smmaxewrlcnf.png',
         exec: (async (editor) => {
             await imageUpload(editor);
         })
     };
-
-    // const handlePaste = async (event, editor) => {
-    //     const clipboardData = event.clipboardData;
-    //     const items = clipboardData.items;
-
-    //     for (let i = 0; i < items.length; i++) {
-    //         const item = items[i];
-
-    //         if (item.kind === 'file' && item.type.startsWith('image/')) {
-    //             const file = item.getAsFile();
-
-    //             if (file) {
-    //                 event.preventDefault(); // Prevent the default paste behavior
-
-    //                 const imageUrl = await imageUpload(file);
-
-    //                 if (imageUrl) {
-    //                     editor.selection.insertHTML(`<img src="${imageUrl}" alt="Uploaded Image"/>`);
-    //                 }
-    //             }
-    //         }
-    //     }
-    // };
 
     const imageUpload = (editor) => {
         const input = document.createElement('input');
@@ -115,11 +92,9 @@ export default function CreateBlog() {
 
     //this method insert the image inside the editor after the upload is done.
     const insertImage = (editor, url) => {
-        // const image = editor.selection.j.createInside.element('img');
-        // image.setAttribute('src', url);
-        // editor.selection.insertNode(image);
-        const imgTag = `<img src="${url}" />`; // Adjust the width and height as needed
-        editor.selection.insertHTML(imgTag);
+        const image = editor.selection.j.createInside.element('img');
+        image.setAttribute('src', url);
+        editor.selection.insertNode(image);
     }
 
     // this method send the image to cloudinary
@@ -337,8 +312,7 @@ export default function CreateBlog() {
                                                     {post.categories.map((category, index) => (
                                                         <a className="badge bg-secondary text-decoration-none link-light" href="#!">{category.name}</a>
                                                     ))}
-                                                </div>
-                                                
+                                                </div>                         
                                                 <div className="d-flex">
                                                     <button className="btn btn-primary me-2" onClick={() => redirectRead(post.id, post.heading)}>Read</button> {/* Add "()" to prevent auto trigger */}
                                                     <button className="btn btn-warning me-2" onClick={() => redirectEdit(post.id, post.heading)}>Edit</button>
