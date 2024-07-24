@@ -104,10 +104,10 @@ export default function CreateBlog() {
         let formData = new FormData();
         formData.append('file', file);
         formData.append("upload_preset", "fokolbfy");
-        formData.append("folder", "Blog_Photo_Website/Blog");
-        formData.append("api_key", "135497366991663");
+        formData.append("folder", process.env.REACT_APP_CLOUDINARY_FOLDER);
+        formData.append("api_key", process.env.REACT_APP_API_CLOUDINARY);
 
-        await fetch(`https://api.cloudinary.com/v1_1/dvi9ihpbc/upload/`, {
+        await fetch(process.env.REACT_APP_CLOUDINARY_URL, {
             method: 'POST',
             body: formData
         }).then((response) => response.json())
